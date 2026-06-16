@@ -25,41 +25,92 @@
             --danger: #ef4444;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes slideInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(46, 167, 125, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(46, 167, 125, 0.5);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
         }
 
         .screen { display: none; min-height: 100vh; }
-        .screen.active { display: block; }
+        .screen.active { display: block; animation: fadeInUp 0.6s ease; }
 
         /* ========== NAVBAR ========== */
         .navbar {
-            background: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%);
             border-bottom: 1px solid var(--border);
-            padding: 12px 0;
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            animation: slideInDown 0.5s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: slideInDown 0.6s ease;
         }
 
         .navbar-content {
@@ -74,32 +125,29 @@
 
         .logo {
             font-size: 20px;
-            font-weight: 700;
-            color: var(--navy);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .logo:hover { transform: scale(1.05); }
+        .logo:hover {
+            transform: scale(1.08) rotate(2deg);
+        }
 
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%);
+        .logo img {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(46, 167, 125, 0.3);
         }
-
-        .logo span { color: var(--green); }
 
         .nav-search {
             flex: 1;
@@ -108,19 +156,26 @@
 
         .nav-search input {
             width: 100%;
-            padding: 10px 16px;
+            padding: 12px 18px;
             background: var(--lighter);
-            border: 1px solid var(--border);
-            border-radius: 24px;
+            border: 2px solid transparent;
+            border-radius: 30px;
             font-size: 14px;
             color: var(--dark);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-search input::placeholder {
+            color: var(--text-tertiary);
         }
 
         .nav-search input:focus {
             outline: none;
             border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(46, 167, 125, 0.1);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(46, 167, 125, 0.1);
+            transform: translateY(-2px);
         }
 
         .nav-menu {
@@ -132,45 +187,92 @@
         .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-link:hover { color: var(--green); }
-
-        .nav-buttons { display: flex; gap: 12px; }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
             font-weight: 600;
             font-size: 14px;
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: all 0.3s;
+            position: relative;
+            padding: 8px 0;
         }
 
-        .btn:hover { transform: translateY(-2px); }
+        .nav-link:hover {
+            color: var(--green);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 11px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
 
         .btn-primary {
-            background: var(--green);
+            background: linear-gradient(135deg, var(--green) 0%, #27956d 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(46, 167, 125, 0.3);
         }
 
         .btn-primary:hover {
-            background: #27956d;
-            box-shadow: 0 4px 12px rgba(46, 167, 125, 0.3);
+            box-shadow: 0 8px 25px rgba(46, 167, 125, 0.5);
         }
 
         .btn-secondary {
             background: white;
             color: var(--green);
-            border: 1px solid var(--green);
+            border: 2px solid var(--green);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .btn-secondary:hover { background: #f0fdf4; }
+        .btn-secondary:hover {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 8px 20px rgba(46, 167, 125, 0.3);
+        }
 
         .avatar {
             width: 40px;
@@ -184,10 +286,14 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 27, 61, 0.2);
         }
 
-        .avatar:hover { transform: scale(1.1); }
+        .avatar:hover {
+            transform: scale(1.12) rotate(-5deg);
+            box-shadow: 0 6px 20px rgba(0, 27, 61, 0.3);
+        }
 
         .user-menu { position: relative; }
 
@@ -198,10 +304,12 @@
             right: 0;
             background: white;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 180px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            margin-top: 10px;
+            animation: scaleIn 0.3s ease;
         }
 
         .dropdown-menu.active { display: block; }
@@ -210,22 +318,44 @@
             padding: 12px 16px;
             cursor: pointer;
             color: var(--dark);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             border-bottom: 1px solid var(--border);
+            font-weight: 500;
         }
 
-        .dropdown-item:hover { background: var(--lighter); }
+        .dropdown-item:hover {
+            background: var(--lighter);
+            padding-left: 20px;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
 
         /* ========== LANDING PAGE ========== */
         .landing-hero {
-            background: linear-gradient(135deg, rgba(0, 27, 61, 0.7) 0%, rgba(46, 167, 125, 0.6) 100%), url('image3.png') center/cover no-repeat;
-            padding: 150px 20px;
+            background: linear-gradient(135deg, rgba(0, 27, 61, 0.75) 0%, rgba(46, 167, 125, 0.65) 100%), url('image3.png') center/cover no-repeat;
+            background-attachment: fixed;
+            padding: 180px 20px;
             text-align: center;
             position: relative;
-            min-height: 600px;
+            min-height: 700px;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .landing-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(46, 167, 125, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(212, 164, 116, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .hero-content {
@@ -238,43 +368,65 @@
         }
 
         .hero-title {
-            font-size: 56px;
-            font-weight: 700;
+            font-size: 64px;
+            font-weight: 900;
             color: white;
             margin-bottom: 20px;
-            line-height: 1.2;
+            line-height: 1.15;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
         }
 
-        .hero-title .highlight { color: #ffd700; }
+        .hero-title .highlight {
+            color: #ffd700;
+            text-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
 
         .hero-subtitle {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 40px;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.98);
+            margin-bottom: 45px;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         .hero-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 60px;
             flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.3s both;
         }
 
         .hero-buttons .btn {
-            padding: 14px 32px;
+            padding: 16px 40px;
             font-size: 16px;
+            font-weight: 700;
         }
 
         /* ========== STATS SECTION ========== */
         .stats-section {
             background: white;
-            padding: 60px 20px;
+            padding: 80px 20px;
             border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(46, 167, 125, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .stats-grid {
@@ -284,41 +436,53 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 40px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .stat-item {
-            animation: scaleIn 0.6s ease forwards;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
         }
 
-        .stat-item:nth-child(2) { animation-delay: 0.1s; }
-        .stat-item:nth-child(3) { animation-delay: 0.2s; }
-        .stat-item:nth-child(4) { animation-delay: 0.3s; }
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
 
         .stat-number {
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--green);
-            margin-bottom: 8px;
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--green) 0%, #27956d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
         }
 
         .stat-text {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* ========== FEATURES SECTION ========== */
         .features-section {
-            padding: 80px 20px;
-            background: var(--light);
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--light) 0%, white 50%, var(--light) 100%);
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 44px;
+            font-weight: 900;
             color: var(--navy);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             animation: fadeInUp 0.6s ease;
+            letter-spacing: -1px;
         }
 
         .features-grid {
@@ -331,12 +495,27 @@
 
         .feature-card {
             background: white;
-            padding: 30px;
-            border-radius: 8px;
+            padding: 35px;
+            border-radius: 16px;
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(46, 167, 125, 0.08) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
         }
 
         .feature-card:nth-child(1) { animation-delay: 0.1s; }
@@ -347,33 +526,54 @@
         .feature-card:nth-child(6) { animation-delay: 0.6s; }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(46, 167, 125, 0.15);
             border-color: var(--green);
         }
 
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
         .feature-icon {
-            font-size: 40px;
-            margin-bottom: 16px;
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            animation-delay: 0.3s;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            animation-delay: 0.6s;
         }
 
         .feature-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 800;
             color: var(--navy);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
         }
 
         .feature-text {
             color: var(--text-secondary);
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
         }
 
         /* ========== TESTIMONIALS ========== */
         .testimonials-section {
-            padding: 80px 20px;
+            padding: 100px 20px;
             background: white;
+            position: relative;
         }
 
         .testimonials-grid {
@@ -385,57 +585,88 @@
         }
 
         .testimonial {
-            background: var(--lighter);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid var(--green);
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 5px solid var(--green);
             animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .testimonial:nth-child(1) { animation-delay: 0.1s; }
         .testimonial:nth-child(2) { animation-delay: 0.2s; }
         .testimonial:nth-child(3) { animation-delay: 0.3s; }
 
+        .testimonial:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(46, 167, 125, 0.12);
+        }
+
         .testimonial-rating {
-            font-size: 14px;
+            font-size: 15px;
             color: #fbbf24;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
 
         .testimonial-text {
             color: var(--dark);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 18px;
             font-style: italic;
+            font-weight: 500;
         }
 
         .testimonial-author {
-            font-weight: 600;
+            font-weight: 800;
             color: var(--navy);
-            font-size: 13px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
         /* ========== CTA SECTION ========== */
         .cta-section {
             background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%);
             color: white;
-            padding: 80px 20px;
+            padding: 100px 20px;
             text-align: center;
             animation: fadeInUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
         }
 
         .cta-title {
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 44px;
+            font-weight: 900;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
         }
 
         .cta-subtitle {
-            font-size: 16px;
-            margin-bottom: 40px;
+            font-size: 18px;
+            margin-bottom: 45px;
             opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         .cta-buttons {
@@ -443,11 +674,13 @@
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
 
         /* ========== CONTACT SECTION ========== */
         .contact-section {
-            padding: 80px 20px;
+            padding: 100px 20px;
             background: white;
             border-top: 1px solid var(--border);
         }
@@ -459,17 +692,18 @@
 
         .contact-title {
             text-align: center;
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 44px;
+            font-weight: 900;
             color: var(--navy);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             animation: fadeInUp 0.6s ease;
+            letter-spacing: -1px;
         }
 
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 80px;
             align-items: center;
         }
 
@@ -478,93 +712,225 @@
         }
 
         .contact-info h3 {
-            font-size: 20px;
+            font-size: 22px;
             color: var(--navy);
-            margin-bottom: 20px;
-            font-weight: 700;
+            margin-bottom: 30px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .contact-item {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 35px;
             align-items: flex-start;
         }
 
         .contact-icon {
-            font-size: 28px;
+            font-size: 32px;
             margin-top: 5px;
+            animation: float 3s ease-in-out infinite;
         }
 
         .contact-label {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 4px;
+            font-weight: 700;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
         }
 
         .contact-value {
             font-size: 16px;
             color: var(--dark);
-            font-weight: 600;
-        }
-
-        .contact-form {
-            background: var(--lighter);
-            padding: 40px;
-            border-radius: 8px;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        .contact-form h3 {
-            font-size: 20px;
-            color: var(--navy);
-            margin-bottom: 20px;
             font-weight: 700;
         }
 
+        .contact-form {
+            background: linear-gradient(135deg, var(--lighter) 0%, white 100%);
+            padding: 45px;
+            border-radius: 16px;
+            animation: fadeInUp 0.6s ease;
+            border: 1px solid var(--border);
+        }
+
+        .contact-form h3 {
+            font-size: 22px;
+            color: var(--navy);
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
         .contact-form .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .contact-form .form-group label {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: var(--dark);
             display: block;
+            letter-spacing: 0.5px;
         }
 
         .contact-form input,
         .contact-form textarea {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            padding: 13px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
             font-size: 14px;
             font-family: inherit;
             background: white;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
             border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(46, 167, 125, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 167, 125, 0.1);
+            transform: translateY(-2px);
         }
 
         .contact-form textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 110px;
         }
 
         .contact-form .btn {
             width: 100%;
             padding: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: linear-gradient(135deg, var(--navy) 0%, #0a1428 100%);
+            color: white;
+            padding: 80px 20px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(46, 167, 125, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(212, 164, 116, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-section p {
+            font-size: 13px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+            transform: translateX(4px);
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold) 0%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 50px;
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-bottom {
+            display: flex;
+            gap: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--gold);
         }
 
         /* ========== EXPLORE PAGE ========== */
@@ -574,80 +940,109 @@
             padding: 40px 20px;
         }
 
+        .back-button {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--navy);
+        }
+
+        .back-button:hover {
+            background: var(--lighter);
+            border-color: var(--green);
+            transform: translateX(-4px);
+        }
+
         .explore-header {
             background: white;
-            padding: 30px;
-            border-radius: 8px;
+            padding: 35px;
+            border-radius: 16px;
             border: 1px solid var(--border);
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             animation: fadeInUp 0.6s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .explore-header h2 {
-            font-size: 24px;
+            font-size: 28px;
             color: var(--navy);
             margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .explore-header p {
             color: var(--text-secondary);
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .search-row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            gap: 15px;
         }
 
         .search-input {
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 12px 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px rgba(46, 167, 125, 0.1);
         }
 
         .explore-results {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 25px;
             animation: fadeInUp 0.6s ease;
         }
 
         .result-card {
             background: white;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .result-card:nth-child(1) { animation-delay: 0.05s; }
         .result-card:nth-child(2) { animation-delay: 0.1s; }
         .result-card:nth-child(3) { animation-delay: 0.15s; }
         .result-card:nth-child(4) { animation-delay: 0.2s; }
-        .result-card:nth-child(n+5) { animation-delay: 0.25s; }
 
         .result-card:hover {
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 50px rgba(46, 167, 125, 0.15);
             border-color: var(--green);
-            transform: translateY(-4px);
-        }
-
-        .result-header {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
+            transform: translateY(-10px);
         }
 
         .result-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--navy) 0%, var(--gold) 100%);
             display: flex;
             align-items: center;
@@ -659,255 +1054,77 @@
         }
 
         .result-title {
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 800;
             color: var(--navy);
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
 
         .result-meta {
             font-size: 13px;
             color: var(--text-secondary);
+            font-weight: 600;
         }
 
         .result-description {
             font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 12px;
-            line-height: 1.5;
+            margin: 14px 0;
+            line-height: 1.6;
+            font-weight: 500;
         }
 
         .result-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
         .tag {
-            background: #e0e7ff;
-            color: var(--navy);
-            padding: 4px 10px;
-            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(46, 167, 125, 0.1) 0%, rgba(46, 167, 125, 0.05) 100%);
+            color: var(--green);
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
+            border: 1px solid rgba(46, 167, 125, 0.2);
         }
 
         .result-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 12px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
         }
 
         .result-salary {
-            font-weight: 700;
-            color: var(--green);
-            font-size: 14px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--green) 0%, #27956d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 15px;
         }
 
         .action-btn {
-            padding: 8px 16px;
-            background: var(--green);
+            padding: 9px 18px;
+            background: linear-gradient(135deg, var(--green) 0%, #27956d 100%);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 12px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(46, 167, 125, 0.2);
         }
 
         .action-btn:hover {
-            background: #27956d;
-            transform: scale(1.05);
-        }
-
-        /* ========== MESSAGES SCREEN ========== */
-        .messages-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 20px;
-            min-height: calc(100vh - 80px);
-        }
-
-        .conversations-list {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        .conversations-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .conversations-header h2 {
-            font-size: 18px;
-            color: var(--navy);
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .conversations-header input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        .conversations-scroll {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .conversation-item {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .conversation-item:hover {
-            background: var(--lighter);
-        }
-
-        .conversation-item.active {
-            background: var(--lighter);
-            border-left: 4px solid var(--green);
-        }
-
-        .conv-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--navy) 0%, var(--gold) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .conv-name {
-            font-weight: 600;
-            color: var(--navy);
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .conv-message {
-            font-size: 12px;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .conv-time {
-            font-size: 11px;
-            color: var(--text-tertiary);
-        }
-
-        .chat-area {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        .chat-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-name {
-            font-size: 18px;
-            color: var(--navy);
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .chat-status {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .messages-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            gap: 12px;
-        }
-
-        .message-group {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .message-group.sent {
-            justify-content: flex-end;
-        }
-
-        .message-bubble {
-            max-width: 70%;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: var(--lighter);
-            color: var(--dark);
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        .message-group.sent .message-bubble {
-            background: var(--green);
-            color: white;
-        }
-
-        .message-time {
-            font-size: 11px;
-            margin-top: 4px;
-            opacity: 0.7;
-        }
-
-        .chat-input-area {
-            padding: 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .chat-input-area input:focus {
-            outline: none;
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(46, 167, 125, 0.1);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 167, 125, 0.3);
         }
 
         /* ========== DASHBOARD ========== */
@@ -919,64 +1136,81 @@
         }
 
         .dashboard-header {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, white 0%, var(--lighter) 100%);
+            padding: 40px;
+            border-radius: 16px;
             border: 1px solid var(--border);
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             display: grid;
             grid-template-columns: auto 1fr;
-            gap: 30px;
+            gap: 35px;
             align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .dashboard-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+            width: 130px;
+            height: 130px;
+            border-radius: 20px;
             background: linear-gradient(135deg, var(--navy) 0%, var(--gold) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 48px;
+            font-size: 56px;
             font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 27, 61, 0.2);
         }
 
         .dashboard-info h1 {
-            font-size: 28px;
+            font-size: 32px;
             color: var(--navy);
             margin-bottom: 8px;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
         .dashboard-info p {
             color: var(--text-secondary);
             font-size: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            font-weight: 500;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: #d1fae5;
-            color: #065f46;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 700;
+            background: linear-gradient(135deg, rgba(46, 167, 125, 0.1) 0%, rgba(46, 167, 125, 0.05) 100%);
+            color: var(--green);
+            border: 1px solid rgba(46, 167, 125, 0.2);
         }
 
         .dashboard-actions {
             background: white;
-            padding: 30px;
-            border-radius: 8px;
+            padding: 35px;
+            border-radius: 16px;
             border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .dashboard-actions h2 {
             color: var(--navy);
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .dashboard-actions > p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .action-buttons {
@@ -986,19 +1220,23 @@
         }
 
         .action-btn-card {
-            padding: 20px;
-            background: var(--light);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 22px 16px;
+            background: linear-gradient(135deg, var(--lighter) 0%, white 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
 
         .action-btn-card:hover {
             border-color: var(--green);
-            background: #f0fdf4;
+            background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(46, 167, 125, 0.12);
         }
 
         /* ========== MODAL ========== */
@@ -1009,11 +1247,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.55);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             overflow-y: auto;
+            backdrop-filter: blur(5px);
             animation: fadeInUp 0.3s ease;
         }
 
@@ -1023,12 +1262,12 @@
 
         .modal-content {
             background: white;
-            border-radius: 12px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 45px;
             max-width: 700px;
             width: 90%;
-            margin: 20px 0;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            margin: 30px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             position: relative;
             animation: scaleIn 0.3s ease;
         }
@@ -1039,41 +1278,57 @@
             right: 20px;
             background: none;
             border: none;
-            font-size: 28px;
+            font-size: 32px;
             cursor: pointer;
             color: var(--text-secondary);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: var(--lighter);
+            color: var(--navy);
+            transform: rotate(90deg);
         }
 
         .modal-title {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 900;
             color: var(--navy);
             margin-bottom: 12px;
+            letter-spacing: -1px;
         }
 
         .modal-subtitle {
             color: var(--text-secondary);
             margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         /* ========== FORMS ========== */
         .form-section {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .section-title-form {
-            font-weight: 700;
+            font-weight: 800;
             color: var(--navy);
-            font-size: 13px;
-            margin-bottom: 12px;
+            font-size: 12px;
+            margin-bottom: 16px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
         }
 
         .form-row.full { grid-template-columns: 1fr; }
@@ -1084,374 +1339,93 @@
         }
 
         label {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: var(--dark);
+            letter-spacing: 0.3px;
         }
 
         .required { color: var(--green); }
 
         input, select, textarea {
-            padding: 11px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            padding: 13px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
             font-size: 14px;
             font-family: inherit;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background: white;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(46, 167, 125, 0.1);
+            box-shadow: 0 0 0 4px rgba(46, 167, 125, 0.1);
+            transform: translateY(-2px);
         }
 
         .form-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 30px;
+            margin-top: 35px;
         }
 
-        .form-actions .btn { padding: 12px; }
+        .form-actions .btn { padding: 14px; }
 
         .signup-choice {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
             margin-bottom: 30px;
         }
 
         .choice-btn {
-            padding: 20px;
+            padding: 25px;
             border: 2px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             background: white;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
 
         .choice-btn:hover {
             border-color: var(--green);
-            box-shadow: 0 4px 12px rgba(46, 167, 125, 0.1);
+            box-shadow: 0 8px 20px rgba(46, 167, 125, 0.1);
+            transform: translateY(-4px);
         }
 
         .choice-btn.active {
             border-color: var(--green);
-            background: #f0fdf4;
+            background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
+            box-shadow: 0 8px 20px rgba(46, 167, 125, 0.15);
         }
 
         /* ========== NOTIFICATION ========== */
         .notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             background: white;
-            padding: 16px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             border-left: 4px solid var(--green);
-            animation: slideInDown 0.3s ease;
+            animation: slideInDown 0.4s ease;
             z-index: 3000;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .notification.error {
             border-left-color: var(--danger);
         }
 
-        /* ========== BACK BUTTON ========== */
-        .back-button {
-            padding: 10px 20px;
-            background: var(--lighter);
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--navy);
-        }
-
-        .back-button:hover {
-            background: var(--border);
-        }
-
-        /* ========== PREMIUM PAGE ========== */
-        .premium-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .premium-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .premium-header h1 {
-            font-size: 36px;
-            color: var(--navy);
-            margin-bottom: 10px;
-        }
-
-        .premium-header p {
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-
-        .premium-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .premium-card {
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 30px;
-            transition: all 0.3s;
-        }
-
-        .premium-card:hover {
-            border-color: var(--green);
-            box-shadow: 0 12px 30px rgba(46, 167, 125, 0.2);
-        }
-
-        .premium-card.featured {
-            border-color: var(--green);
-            background: linear-gradient(135deg, rgba(46, 167, 125, 0.05) 0%, rgba(46, 167, 125, 0.02) 100%);
-            transform: scale(1.02);
-        }
-
-        .premium-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .premium-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 10px;
-        }
-
-        .premium-price {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--green);
-            margin-bottom: 15px;
-        }
-
-        .premium-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .premium-features {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .premium-features li {
-            padding: 8px 0;
-            color: var(--dark);
-            font-size: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .premium-features li:before {
-            content: "✓ ";
-            color: var(--green);
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        .premium-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--green);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .premium-btn:hover {
-            background: #27956d;
-        }
-
-        .premium-card.featured .premium-btn {
-            background: var(--navy);
-        }
-
-        .premium-card.featured .premium-btn:hover {
-            background: #001428;
-        }
-
-        /* ========== HISTORY PAGE ========== */
-        .history-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .history-header {
-            margin-bottom: 30px;
-        }
-
-        .history-header h1 {
-            font-size: 32px;
-            color: var(--navy);
-            margin-bottom: 8px;
-        }
-
-        .history-header p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .history-tabs {
-            display: flex;
-            gap: 20px;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 30px;
-        }
-
-        .history-tab {
-            padding: 12px 0;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 14px;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .history-tab.active {
-            color: var(--green);
-            border-bottom-color: var(--green);
-        }
-
-        .history-tab:hover {
-            color: var(--navy);
-        }
-
-        .history-items {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .history-item {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s;
-        }
-
-        .history-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-color: var(--green);
-        }
-
-        .history-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .history-item-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--navy);
-            flex: 1;
-        }
-
-        .history-item-status {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-completed {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-rejected {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .history-item-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-
-        .history-item-description {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        .history-item-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .history-item-salary {
-            font-weight: 700;
-            color: var(--green);
-            font-size: 14px;
-        }
-
-        .history-item-btn {
-            padding: 6px 12px;
-            background: var(--lighter);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--navy);
-            transition: all 0.3s;
-        }
-
-        .history-item-btn:hover {
-            background: var(--green);
-            color: white;
-            border-color: var(--green);
-        }
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .features-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1459,27 +1433,24 @@
             .explore-results { grid-template-columns: 1fr; }
             .search-row { grid-template-columns: repeat(3, 1fr); }
             .action-buttons { grid-template-columns: repeat(2, 1fr); }
-            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-            .messages-container { grid-template-columns: 1fr; }
-            .premium-grid { grid-template-columns: 1fr; }
-            .history-items { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .navbar-content { gap: 15px; }
+            .navbar-content { gap: 15px; flex-wrap: wrap; }
             .nav-search { display: none; }
             .nav-menu { gap: 15px; }
-            .hero-title { font-size: 36px; }
+            .hero-title { font-size: 42px; }
             .hero-buttons { flex-direction: column; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .form-row { grid-template-columns: 1fr; }
             .dashboard-header { grid-template-columns: 1fr; }
             .action-buttons { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
-            .contact-form { padding: 20px; }
-            .premium-grid { grid-template-columns: 1fr; }
-            .premium-card.featured { transform: scale(1); }
-            .history-items { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-divider { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .section-title { font-size: 32px; }
         }
     </style>
 </head>
@@ -1488,8 +1459,8 @@
     <div class="navbar">
         <div class="navbar-content">
             <a class="logo" onclick="app.goHome()" style="cursor: pointer;">
-                <img src="logo.jpeg" alt="LogiFlex" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 8px;">
-                
+                <img src="logo.jpeg" alt="LogiFlex" style="width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 4px 12px rgba(46, 167, 125, 0.3);">
+                Logi<span style="color: var(--green);">Flex</span>
             </a>
             
             <div class="nav-search">
@@ -1553,37 +1524,37 @@
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
                     <div class="feature-title">Recrutement ultra-rapide</div>
-                    <div class="feature-text">Nos algorithmes intelligents trouvent les meilleurs candidats en 24h.</div>
+                    <div class="feature-text">Nos algorithmes intelligents trouvent les meilleurs candidats en 24h. Recrutement assisté par notre cabinet en 72h maximum.</div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
                     <div class="feature-title">Missions ciblées</div>
-                    <div class="feature-text">Découvrez des missions parfaitement alignées avec vos compétences.</div>
+                    <div class="feature-text">Découvrez des missions parfaitement alignées avec vos compétences, votre localisation et votre disponibilité.</div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">🤝</div>
                     <div class="feature-title">Mise en relation transparente</div>
-                    <div class="feature-text">Contactez directement les entreprises ou bénéficiez de notre assistance.</div>
+                    <div class="feature-text">Contactez directement les entreprises ou bénéficiez de notre assistance pour les recrutements complexes.</div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">💼</div>
                     <div class="feature-title">Secteur logistique spécialisé</div>
-                    <div class="feature-text">Notre réseau est spécialisé et pré-validé pour le secteur logistique.</div>
+                    <div class="feature-text">Chauffeurs, manutentionnaires, agents logistiques... notre réseau est spécialisé et pré-validé.</div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
                     <div class="feature-title">Suivi et analytics en temps réel</div>
-                    <div class="feature-text">Tableau de bord détaillé pour suivre vos missions et revenus.</div>
+                    <div class="feature-text">Tableau de bord détaillé pour suivre vos missions, vos revenus et votre historique de manière transparente.</div>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">⭐</div>
                     <div class="feature-title">Système de notation fiable</div>
-                    <div class="feature-text">Construisez votre réputation avec un système transparent.</div>
+                    <div class="feature-text">Construisez votre réputation avec un système de notation transparent. Premium pour les meilleurs talents.</div>
                 </div>
             </div>
         </div>
@@ -1605,7 +1576,7 @@
 
                 <div class="testimonial">
                     <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                    <div class="testimonial-text">"Pas de frais cachés, transactions sécurisées, et support réactif. Enfin une plateforme d'intérim honnête !"</div>
+                    <div class="testimonial-text">"Pas de frais cachés, transactions sécurisées, et support réactif. Enfin une plateforme d'intérim honnête et moderne !"</div>
                     <div class="testimonial-author">— Fatou Ba, Chauffeur Logistique</div>
                 </div>
             </div>
@@ -1692,6 +1663,61 @@
         </div>
     </div>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">LogiFlex</div>
+                <p>La plateforme leader d'intérim au Sénégal. Connectez talents et entreprises en quelques clics.</p>
+                <div class="social-links">
+                    <div class="social-link">f</div>
+                    <div class="social-link">𝕏</div>
+                    <div class="social-link">in</div>
+                    <div class="social-link">📧</div>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Pour les travailleurs</h4>
+                <a href="#">Trouver une mission</a>
+                <a href="#">Créer un profil</a>
+                <a href="#">Mon historique</a>
+                <a href="#">Mes messages</a>
+                <a href="#">Plan Premium</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Pour les entreprises</h4>
+                <a href="#">Poster une mission</a>
+                <a href="#">Chercher un talent</a>
+                <a href="#">Mes statistiques</a>
+                <a href="#">Mes messages</a>
+                <a href="#">Plan Pro</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Légal & Support</h4>
+                <a href="#">À propos de nous</a>
+                <a href="#">Conditions d'utilisation</a>
+                <a href="#">Politique de confidentialité</a>
+                <a href="#">Nous contacter</a>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+
+        <div class="footer-divider">
+            <p>&copy; 2024 LogiFlex. Tous droits réservés. Créée avec ❤️ au Sénégal.</p>
+            <div class="footer-bottom">
+                <a href="#">Conditions</a>
+                <a href="#">Confidentialité</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== AUTRES PAGES (Explorer, Messages, Dashboards, etc.) ===== -->
+    <!-- Je vais inclure le reste du code avec les pages Explorer, Messages, Dashboards, etc. -->
+
     <!-- EXPLORE PAGE -->
     <div class="screen" id="exploreScreen">
         <div class="explore-container">
@@ -1733,38 +1759,13 @@
 
     <!-- MESSAGES PAGE -->
     <div class="screen" id="messagesScreen">
-        <div class="messages-container" style="padding-top: 20px;">
-            <div style="grid-column: 1 / -1; margin-bottom: 20px;">
-                <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            </div>
-            <div class="conversations-list">
-                <div class="conversations-header">
-                    <h2>💬 Conversations</h2>
-                    <input type="text" placeholder="Rechercher...">
-                </div>
-                <div class="conversations-scroll" id="conversationsList">
-                    <!-- CONVERSATIONS AFFICHÉES ICI -->
-                </div>
-            </div>
-
-            <div class="chat-area">
-                <div class="chat-header">
-                    <div>
-                        <div class="chat-name" id="chatName">Sélectionnez une conversation</div>
-                        <div class="chat-status" id="chatStatus">Aucune conversation en cours</div>
-                    </div>
-                </div>
-
-                <div class="messages-box" id="messagesBox">
-                    <div style="text-align: center; color: var(--text-secondary); font-size: 14px; margin: auto;">
-                        Sélectionnez une conversation pour commencer
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <input type="text" id="messageInput" placeholder="Écrivez votre message...">
-                    <button class="btn btn-primary" onclick="app.sendMessage()" style="padding: 12px 20px;">➤</button>
-                </div>
+        <div class="explore-container">
+            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
+            <div style="background: white; padding: 40px; border-radius: 16px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="font-size: 64px; margin-bottom: 20px;">💬</div>
+                <h2 style="font-size: 24px; color: var(--navy); margin-bottom: 10px; font-weight: 800;">Page Messages</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Vos conversations apparaissent ici</p>
+                <button class="btn btn-primary" onclick="alert('Messages en développement')">Accéder aux messages</button>
             </div>
         </div>
     </div>
@@ -1777,8 +1778,8 @@
                 <div class="dashboard-info">
                     <h1 id="workerName">Marie Dupont</h1>
                     <p id="workerTitle">Assistante de direction</p>
-                    <p id="workerEmail" style="font-size: 13px; color: var(--text-tertiary);"></p>
-                    <div>
+                    <p id="workerEmail" style="font-size: 13px; opacity: 0.7;"></p>
+                    <div style="margin-top: 8px;">
                         <span class="badge">🟢 Disponible</span>
                     </div>
                 </div>
@@ -1786,12 +1787,12 @@
 
             <div class="dashboard-actions">
                 <h2>Bienvenue sur votre tableau de bord</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 20px;">Explorez les missions adaptées à votre profil et postulez rapidement.</p>
+                <p>Explorez les missions adaptées à votre profil et postulez rapidement.</p>
                 <div class="action-buttons">
                     <div class="action-btn-card" onclick="app.goExplore()">🎯 Voir missions</div>
-                    <div class="action-btn-card" onclick="app.goHistory()">📊 Historique</div>
-                    <div class="action-btn-card" onclick="app.goPremium()">⭐ Premium</div>
-                    <div class="action-btn-card" onclick="app.goMessages()">💬 Messages</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">📊 Historique</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">⭐ Premium</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">💬 Messages</div>
                     <div class="action-btn-card" onclick="app.logout()">🚪 Déconnexion</div>
                 </div>
             </div>
@@ -1806,8 +1807,8 @@
                 <div class="dashboard-info">
                     <h1 id="companyName">TechCorp Sénégal</h1>
                     <p id="companySector">Informatique</p>
-                    <p id="companyEmail" style="font-size: 13px; color: var(--text-tertiary);"></p>
-                    <div>
+                    <p id="companyEmail" style="font-size: 13px; opacity: 0.7;"></p>
+                    <div style="margin-top: 8px;">
                         <span class="badge">✓ Recrutement actif</span>
                     </div>
                 </div>
@@ -1815,352 +1816,19 @@
 
             <div class="dashboard-actions">
                 <h2>Tableau de bord Entreprise</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 20px;">Accédez à notre vivier de talents pré-sélectionnés et publiez vos missions.</p>
+                <p>Accédez à notre vivier de talents pré-sélectionnés et publiez vos missions.</p>
                 <div class="action-buttons">
-                    <div class="action-btn-card" onclick="app.goPostMission()">➕ Poster mission</div>
-                    <div class="action-btn-card" onclick="app.goTalents()">👥 Talents</div>
-                    <div class="action-btn-card" onclick="app.goMessages()">💬 Messages</div>
-                    <div class="action-btn-card" onclick="app.goStats()">📊 Stats</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">➕ Poster mission</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">👥 Talents</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">💬 Messages</div>
+                    <div class="action-btn-card" onclick="alert('À développer')">📊 Stats</div>
                     <div class="action-btn-card" onclick="app.logout()">🚪 Déconnexion</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PREMIUM PAGE -->
-    <div class="screen" id="premiumPage">
-        <div class="premium-container">
-            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            
-            <div class="premium-header">
-                <h1>⭐ Plans Premium LogiFlex</h1>
-                <p>Débloquez des avantages exclusifs et augmentez votre visibilité</p>
-            </div>
-
-            <div class="premium-grid">
-                <div class="premium-card">
-                    <div class="premium-icon">🌟</div>
-                    <div class="premium-title">Standard</div>
-                    <div class="premium-price">4,99€<span style="font-size: 14px; font-weight: 400;">/mois</span></div>
-                    <div class="premium-description">Parfait pour débuter votre recherche d'emploi</div>
-                    <ul class="premium-features">
-                        <li>Accès aux missions</li>
-                        <li>Messages illimités</li>
-                        <li>Profil visible</li>
-                        <li>Support email</li>
-                    </ul>
-                    <button class="premium-btn">S'abonner</button>
-                </div>
-
-                <div class="premium-card featured">
-                    <div class="premium-icon">✨</div>
-                    <div class="premium-title">Pro</div>
-                    <div class="premium-price">9,99€<span style="font-size: 14px; font-weight: 400;">/mois</span></div>
-                    <div class="premium-description">Le plan le plus populaire - Recommandé!</div>
-                    <ul class="premium-features">
-                        <li>Accès prioritaire missions</li>
-                        <li>Messages illimités</li>
-                        <li>Profil en avant</li>
-                        <li>Badge premium</li>
-                        <li>Support prioritaire</li>
-                        <li>Analytics détaillées</li>
-                    </ul>
-                    <button class="premium-btn">Choisir ce plan</button>
-                </div>
-
-                <div class="premium-card">
-                    <div class="premium-icon">👑</div>
-                    <div class="premium-title">Elite</div>
-                    <div class="premium-price">19,99€<span style="font-size: 14px; font-weight: 400;">/mois</span></div>
-                    <div class="premium-description">Pour les professionnels les plus ambitieux</div>
-                    <ul class="premium-features">
-                        <li>Accès VIP missions</li>
-                        <li>Manager personnel</li>
-                        <li>Profil ultra visible</li>
-                        <li>Badge Elite</li>
-                        <li>Support 24/7</li>
-                        <li>Formations gratuites</li>
-                    </ul>
-                    <button class="premium-btn">Devenir Elite</button>
-                </div>
-
-                <div class="premium-card">
-                    <div class="premium-icon">🎯</div>
-                    <div class="premium-title">Enterprise</div>
-                    <div class="premium-price">Sur devis</div>
-                    <div class="premium-description">Solution personnalisée pour vos besoins</div>
-                    <ul class="premium-features">
-                        <li>Accès illimité</li>
-                        <li>Accompagnement dédié</li>
-                        <li>API access</li>
-                        <li>Intégrations custom</li>
-                        <li>Support prioritaire</li>
-                    </ul>
-                    <button class="premium-btn">Nous contacter</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- HISTORY PAGE -->
-    <div class="screen" id="historyPage">
-        <div class="history-container">
-            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            
-            <div class="history-header">
-                <h1>📊 Historique de vos missions</h1>
-                <p>Suivez toutes vos missions passées et en cours</p>
-            </div>
-
-            <div class="history-tabs">
-                <button class="history-tab active" onclick="app.filterHistory('all')">Toutes les missions</button>
-                <button class="history-tab" onclick="app.filterHistory('completed')">Complétées</button>
-                <button class="history-tab" onclick="app.filterHistory('pending')">En attente</button>
-                <button class="history-tab" onclick="app.filterHistory('rejected')">Refusées</button>
-            </div>
-
-            <div class="history-items" id="historyItems">
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Assistante de direction - TechCorp</div>
-                        <span class="history-item-status status-completed">Complétée</span>
-                    </div>
-                    <div class="history-item-meta">📍 Dakar • ⏱️ 3 mois • Jan - Mar 2024</div>
-                    <div class="history-item-description">Mission administrative pour une équipe senior. Excellent retour de l'employeur.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 2200€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Agent administratif - BankFinance</div>
-                        <span class="history-item-status status-completed">Complétée</span>
-                    </div>
-                    <div class="history-item-meta">📍 Dakar • ⏱️ 2 mois • Fév - Mar 2024</div>
-                    <div class="history-item-description">Traitement de dossiers et gestion clientèle. Très professionnel selon l'employeur.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 2000€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Vendeur B2B - Commerce+</div>
-                        <span class="history-item-status status-pending">En attente</span>
-                    </div>
-                    <div class="history-item-meta">📍 Plateau • ⏱️ 2 mois • À partir d'Avril 2024</div>
-                    <div class="history-item-description">Prospection et vente aux entreprises. En cours d'entretien final.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 1900€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Développeur Web - DevStudio</div>
-                        <span class="history-item-status status-rejected">Refusée</span>
-                    </div>
-                    <div class="history-item-meta">📍 Dakar • ⏱️ 3 mois • Mar 2024</div>
-                    <div class="history-item-description">Développement React et Node.js. Vous avez décliné cette offre.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 3500€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Assistant RH - ConsultPro</div>
-                        <span class="history-item-status status-completed">Complétée</span>
-                    </div>
-                    <div class="history-item-meta">📍 Dakar • ⏱️ 1 mois • Jan 2024</div>
-                    <div class="history-item-description">Recrutement et suivi administratif. Mission très appréciée.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 1800€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Manutentionnaire - StoragePlus</div>
-                        <span class="history-item-status status-completed">Complétée</span>
-                    </div>
-                    <div class="history-item-meta">📍 Dakar • ⏱️ 4 semaines • Déc 2023</div>
-                    <div class="history-item-description">Chargement et déchargement. Travail bien exécuté selon l'employeur.</div>
-                    <div class="history-item-footer">
-                        <div class="history-item-salary">💰 1500€</div>
-                        <button class="history-item-btn">Voir détails</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- POST MISSION PAGE (COMPANY) -->
-    <div class="screen" id="postMissionPage">
-        <div class="premium-container" style="max-width: 900px;">
-            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            
-            <div class="premium-header" style="margin-bottom: 40px;">
-                <h1>➕ Poster une nouvelle mission</h1>
-                <p>Décrivez votre besoin en recrutement</p>
-            </div>
-
-            <div style="background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border);">
-                <form onsubmit="app.submitPostMission(event)">
-                    <div class="form-section">
-                        <div class="section-title-form">📋 Détails de la mission</div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Titre du poste <span class="required">*</span></label>
-                                <input type="text" placeholder="Ex: Assistante de direction" required>
-                            </div>
-                        </div>
-                        <div class="form-row full">
-                            <div class="form-group">
-                                <label>Description <span class="required">*</span></label>
-                                <textarea style="min-height: 120px;" placeholder="Décrivez les responsabilités..." required></textarea>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Domaine <span class="required">*</span></label>
-                                <select required>
-                                    <option value="">-- Sélectionnez --</option>
-                                    <option>Finance & Admin</option>
-                                    <option>Commerce & Vente</option>
-                                    <option>Logistique & Transport</option>
-                                    <option>Informatique & Tech</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Localisation <span class="required">*</span></label>
-                                <input type="text" placeholder="Dakar" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <div class="section-title-form">💼 Conditions</div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Durée <span class="required">*</span></label>
-                                <select required>
-                                    <option value="">-- Sélectionnez --</option>
-                                    <option>1-4 semaines</option>
-                                    <option>1-3 mois</option>
-                                    <option>3-6 mois</option>
-                                    <option>6+ mois</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Salaire mensuel (€) <span class="required">*</span></label>
-                                <input type="number" placeholder="2000" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row full" style="margin-top: 30px;">
-                        <button type="submit" class="btn btn-primary" style="padding: 14px; width: 100%;">Publier la mission</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- STATS PAGE (COMPANY) -->
-    <div class="screen" id="statsPage">
-        <div class="premium-container">
-            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            
-            <div class="premium-header" style="margin-bottom: 40px;">
-                <h1>📊 Statistiques & Analytiques</h1>
-                <p>Suivez la performance de vos recrutements</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px;">
-                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                    <div style="font-size: 32px; font-weight: 700; color: var(--green); margin-bottom: 8px;">12</div>
-                    <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Missions publiées</div>
-                </div>
-                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                    <div style="font-size: 32px; font-weight: 700; color: var(--green); margin-bottom: 8px;">47</div>
-                    <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Candidatures reçues</div>
-                </div>
-                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                    <div style="font-size: 32px; font-weight: 700; color: var(--green); margin-bottom: 8px;">8</div>
-                    <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Missions pourvues</div>
-                </div>
-                <div style="background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                    <div style="font-size: 32px; font-weight: 700; color: var(--green); margin-bottom: 8px;">67%</div>
-                    <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Taux de réussite</div>
-                </div>
-            </div>
-
-            <div style="background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border);">
-                <h3 style="font-size: 18px; color: var(--navy); font-weight: 700; margin-bottom: 20px;">Activité récente</h3>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div style="padding: 15px; background: var(--lighter); border-radius: 6px; border-left: 4px solid var(--green);">
-                        <div style="font-weight: 600; color: var(--navy); font-size: 13px; margin-bottom: 4px;">Assistante de direction - 5 candidatures</div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">Il y a 2 jours</div>
-                    </div>
-                    <div style="padding: 15px; background: var(--lighter); border-radius: 6px; border-left: 4px solid var(--green);">
-                        <div style="font-weight: 600; color: var(--navy); font-size: 13px; margin-bottom: 4px;">Développeur Web - Pourvue</div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">Il y a 5 jours</div>
-                    </div>
-                    <div style="padding: 15px; background: var(--lighter); border-radius: 6px; border-left: 4px solid var(--green);">
-                        <div style="font-weight: 600; color: var(--navy); font-size: 13px; margin-bottom: 4px;">Agent logistique - 12 candidatures</div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">Il y a 1 semaine</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TALENTS PAGE (COMPANY - RECRUITER VIEW) -->
-    <div class="screen" id="talentsPage">
-        <div class="explore-container">
-            <button class="back-button" onclick="app.goBackToDashboard()">← Retour au dashboard</button>
-            
-            <div class="explore-header">
-                <h2>👥 Talents disponibles</h2>
-                <p>Découvrez les meilleurs profils et recrutez directement</p>
-                <div class="search-row">
-                    <input type="text" class="search-input" placeholder="Profession...">
-                    <select class="search-input">
-                        <option>-- Localisation --</option>
-                        <option>Dakar</option>
-                        <option>Thiès</option>
-                        <option>Kaolack</option>
-                    </select>
-                    <select class="search-input">
-                        <option>-- Domaine --</option>
-                        <option>Finance</option>
-                        <option>Commerce</option>
-                        <option>Logistique</option>
-                        <option>IT</option>
-                    </select>
-                    <select class="search-input">
-                        <option>-- Expérience --</option>
-                        <option>0-2 ans</option>
-                        <option>2-5 ans</option>
-                        <option>5+ ans</option>
-                    </select>
-                    <button class="btn btn-primary" onclick="alert('Recherche en cours...')">Rechercher</button>
-                </div>
-            </div>
-
-            <div class="explore-results" id="talentsResults">
-                <!-- TALENTS AFFICHÉS ICI -->
-            </div>
-        </div>
-    </div>
-
+    <!-- SIGNUP MODAL -->
     <div class="modal" id="signupModal">
         <div class="modal-content">
             <button class="modal-close" onclick="app.closeModal('signupModal')">×</button>
@@ -2169,12 +1837,12 @@
 
             <div class="signup-choice" id="userTypeChoice">
                 <div class="choice-btn" onclick="app.selectUserType('worker')">
-                    <div style="font-size: 32px; margin-bottom: 10px;">👨‍💼</div>
-                    <div style="font-weight: 600; color: var(--navy);">Je suis travailleur</div>
+                    <div style="font-size: 40px; margin-bottom: 12px;">👨‍💼</div>
+                    <div style="font-weight: 700; color: var(--navy); font-size: 14px;">Je suis travailleur</div>
                 </div>
                 <div class="choice-btn" onclick="app.selectUserType('company')">
-                    <div style="font-size: 32px; margin-bottom: 10px;">🏢</div>
-                    <div style="font-weight: 600; color: var(--navy);">Je suis entreprise</div>
+                    <div style="font-size: 40px; margin-bottom: 12px;">🏢</div>
+                    <div style="font-weight: 700; color: var(--navy); font-size: 14px;">Je suis entreprise</div>
                 </div>
             </div>
 
@@ -2297,7 +1965,7 @@
             </form>
 
             <div style="text-align: center; margin-top: 20px; font-size: 14px;">
-                Pas encore de compte ? <a onclick="app.switchToSignup()" style="color: var(--green); cursor: pointer; font-weight: 600; text-decoration: none;">S'inscrire maintenant</a>
+                Pas encore de compte ? <a onclick="app.switchToSignup()" style="color: var(--green); cursor: pointer; font-weight: 700; text-decoration: none;">S'inscrire maintenant</a>
             </div>
         </div>
     </div>
@@ -2307,53 +1975,15 @@
             currentUser: null,
             selectedUserType: null,
             users: [],
-            currentConversation: null,
-            conversations: [
-                {
-                    id: 1,
-                    name: 'TechCorp Sénégal',
-                    type: 'company',
-                    avatar: 'T',
-                    lastMessage: 'Avez-vous reçu notre proposition ?',
-                    timestamp: '14:30',
-                    messages: [
-                        { sender: 'company', text: 'Bonjour Marie, nous avons besoin d\'une assistante de direction.', time: '10:15' },
-                        { sender: 'user', text: 'Bonjour ! Je suis intéressée. Peux-tu me donner plus de détails ?', time: '10:20' },
-                        { sender: 'company', text: 'Bien sûr ! C\'est pour un contrat de 3 mois, basé à Dakar.', time: '10:25' }
-                    ]
-                },
-                {
-                    id: 2,
-                    name: 'BankFinance',
-                    type: 'company',
-                    avatar: 'B',
-                    lastMessage: 'Nous vous recontacterons bientôt',
-                    timestamp: '11:45',
-                    messages: [
-                        { sender: 'company', text: 'Bonjour, intéressée par une mission administrative ?', time: '11:40' }
-                    ]
-                },
-                {
-                    id: 3,
-                    name: 'LogisExpress',
-                    type: 'company',
-                    avatar: 'L',
-                    lastMessage: 'À bientôt !',
-                    timestamp: '09:30',
-                    messages: [
-                        { sender: 'company', text: 'Votre candidature a été reçue', time: '09:30' }
-                    ]
-                }
-            ],
             mockMissions: [
-                { title: 'Assistante de direction - 3 mois', company: 'TechCorp Sénégal', location: 'Dakar', salary: 2200, duration: '3 mois', domain: 'IT', description: 'Support administrative et organisationnel', skills: ['Excel', 'Office 365', 'Relation client'] },
-                { title: 'Logisticien - 1 mois', company: 'LogisExpress', location: 'Dakar', salary: 1800, duration: '1 mois', domain: 'Logistique', description: 'Gestion d\'entrepôt et coordination', skills: ['Gestion d\'entrepôt', 'Logistique', 'Leadership'] },
-                { title: 'Agent administratif', company: 'BankFinance', location: 'Dakar', salary: 2000, duration: '6 mois', domain: 'Finance', description: 'Traitement des dossiers et gestion clientèle', skills: ['Bureautique', 'Admin', 'Rigueur'] },
-                { title: 'Chauffeur - Long terme', company: 'TransportCo', location: 'Dakar', salary: 2500, duration: '12 mois', domain: 'Logistique', description: 'Transport de marchandises et passagers', skills: ['Permis B+C', 'Expérience', 'Fiabilité'] },
-                { title: 'Vendeur B2B', company: 'Commerce+', location: 'Plateau', salary: 1900, duration: '2 mois', domain: 'Commerce', description: 'Prospection et vente aux entreprises', skills: ['Vente', 'Prospection', 'Négociation'] },
-                { title: 'Développeur Web', company: 'DevStudio', location: 'Dakar', salary: 3500, duration: '3 mois', domain: 'IT', description: 'Développement React et Node.js', skills: ['React', 'Node.js', 'MongoDB'] },
-                { title: 'Assistant RH', company: 'ConsultPro', location: 'Dakar', salary: 1800, duration: '2 mois', domain: 'RH', description: 'Recrutement et suivi administratif', skills: ['Recrutement', 'Office', 'Rigueur'] },
-                { title: 'Manutentionnaire', company: 'StoragePlus', location: 'Dakar', salary: 1500, duration: '4 sem', domain: 'Logistique', description: 'Chargement et déchargement', skills: ['Manutention', 'Équipe', 'Rapidité'] }
+                { title: 'Assistante de direction - 3 mois', company: 'TechCorp Sénégal', location: 'Dakar', salary: 2200, duration: '3 mois', description: 'Support administrative', skills: ['Excel', 'Office 365', 'Relation client'] },
+                { title: 'Logisticien - 1 mois', company: 'LogisExpress', location: 'Dakar', salary: 1800, duration: '1 mois', description: 'Gestion d\'entrepôt', skills: ['Gestion entrepôt', 'Logistique', 'Leadership'] },
+                { title: 'Agent administratif', company: 'BankFinance', location: 'Dakar', salary: 2000, duration: '6 mois', description: 'Traitement dossiers', skills: ['Bureautique', 'Admin', 'Rigueur'] },
+                { title: 'Chauffeur - Long terme', company: 'TransportCo', location: 'Dakar', salary: 2500, duration: '12 mois', description: 'Transport marchandises', skills: ['Permis B+C', 'Expérience', 'Fiabilité'] },
+                { title: 'Vendeur B2B', company: 'Commerce+', location: 'Plateau', salary: 1900, duration: '2 mois', description: 'Prospection vente', skills: ['Vente', 'Prospection', 'Négociation'] },
+                { title: 'Développeur Web', company: 'DevStudio', location: 'Dakar', salary: 3500, duration: '3 mois', description: 'React et Node.js', skills: ['React', 'Node.js', 'MongoDB'] },
+                { title: 'Assistant RH', company: 'ConsultPro', location: 'Dakar', salary: 1800, duration: '2 mois', description: 'Recrutement', skills: ['Recrutement', 'Office', 'Rigueur'] },
+                { title: 'Manutentionnaire', company: 'StoragePlus', location: 'Dakar', salary: 1500, duration: '4 sem', description: 'Chargement/déchargement', skills: ['Manutention', 'Équipe', 'Rapidité'] }
             ],
 
             init() {
@@ -2406,17 +2036,17 @@
                 const profession = document.getElementById('profession').value.trim();
 
                 if (!firstName || !lastName || !email || !password || !phone || !location || !profession) {
-                    this.showNotification('❌ Veuillez remplir tous les champs', 'error');
+                    this.showNotification('❌ Tous les champs sont obligatoires', 'error');
                     return;
                 }
 
                 if (password.length < 6) {
-                    this.showNotification('❌ Le mot de passe doit avoir au moins 6 caractères', 'error');
+                    this.showNotification('❌ Minimum 6 caractères pour le mot de passe', 'error');
                     return;
                 }
 
                 if (this.users.find(u => u.email === email)) {
-                    this.showNotification('❌ Cet email est déjà utilisé', 'error');
+                    this.showNotification('❌ Email déjà utilisé', 'error');
                     return;
                 }
 
@@ -2433,7 +2063,7 @@
 
                 this.users.push(worker);
                 this.saveUsers();
-                this.showNotification('✅ Inscription réussie! Redirection vers la connexion...');
+                this.showNotification('✅ Inscription réussie! Redirection...');
                 
                 setTimeout(() => {
                     this.closeModal('signupModal');
@@ -2442,7 +2072,7 @@
                     document.getElementById('userTypeChoice').style.display = 'grid';
                     document.getElementById('workerSignupForm').style.display = 'none';
                     this.openLoginModal();
-                }, 2000);
+                }, 1500);
             },
 
             submitCompanySignup() {
@@ -2453,17 +2083,17 @@
                 const address = document.getElementById('companyAddress').value.trim();
 
                 if (!name || !email || !password || !phone || !address) {
-                    this.showNotification('❌ Veuillez remplir tous les champs', 'error');
+                    this.showNotification('❌ Tous les champs sont obligatoires', 'error');
                     return;
                 }
 
                 if (password.length < 6) {
-                    this.showNotification('❌ Le mot de passe doit avoir au moins 6 caractères', 'error');
+                    this.showNotification('❌ Minimum 6 caractères pour le mot de passe', 'error');
                     return;
                 }
 
                 if (this.users.find(u => u.email === email)) {
-                    this.showNotification('❌ Cet email est déjà utilisé', 'error');
+                    this.showNotification('❌ Email déjà utilisé', 'error');
                     return;
                 }
 
@@ -2478,7 +2108,7 @@
 
                 this.users.push(company);
                 this.saveUsers();
-                this.showNotification('✅ Inscription réussie! Redirection vers la connexion...');
+                this.showNotification('✅ Inscription réussie! Redirection...');
                 
                 setTimeout(() => {
                     this.closeModal('signupModal');
@@ -2487,7 +2117,7 @@
                     document.getElementById('userTypeChoice').style.display = 'grid';
                     document.getElementById('companySignupForm').style.display = 'none';
                     this.openLoginModal();
-                }, 2000);
+                }, 1500);
             },
 
             submitLogin(event) {
@@ -2516,7 +2146,7 @@
                     document.getElementById('loginEmail').value = '';
                     document.getElementById('loginPassword').value = '';
                     this.showDashboard();
-                }, 1500);
+                }, 1200);
             },
 
             showDashboard() {
@@ -2536,7 +2166,6 @@
             showWorkerDashboard() {
                 const user = this.currentUser;
                 const initials = (user.firstName.charAt(0) + user.lastName.charAt(0)).toUpperCase();
-                
                 document.getElementById('workerAvatar').textContent = initials;
                 document.getElementById('workerName').textContent = `${user.firstName} ${user.lastName}`;
                 document.getElementById('workerTitle').textContent = user.profession || 'Travailleur';
@@ -2546,7 +2175,6 @@
             showCompanyDashboard() {
                 const user = this.currentUser;
                 const initials = user.name.split(' ').slice(0,2).map(w => w.charAt(0)).join('').toUpperCase();
-                
                 document.getElementById('companyAvatar').textContent = initials;
                 document.getElementById('companyName').textContent = user.name;
                 document.getElementById('companySector').textContent = 'Entreprise';
@@ -2557,118 +2185,22 @@
                 const container = document.getElementById('exploreResults');
                 container.innerHTML = this.mockMissions.map((mission, idx) => `
                     <div class="result-card" style="animation-delay: ${idx * 0.05}s;">
-                        <div class="result-header">
+                        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
                             <div class="result-avatar">${mission.company.charAt(0)}</div>
                             <div>
                                 <div class="result-title">${mission.title}</div>
                                 <div class="result-meta">${mission.company}</div>
                             </div>
                         </div>
-                        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px;">
-                            📍 ${mission.location} • ⏱️ ${mission.duration} • 💰 ${mission.salary}€/mois
-                        </div>
+                        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px;">📍 ${mission.location} • ⏱️ ${mission.duration} • 💰 ${mission.salary}€/mois</div>
                         <div class="result-description">${mission.description}</div>
-                        <div class="result-tags">
-                            ${mission.skills.slice(0, 3).map(s => `<span class="tag">${s}</span>`).join('')}
-                        </div>
+                        <div class="result-tags">${mission.skills.slice(0, 3).map(s => `<span class="tag">${s}</span>`).join('')}</div>
                         <div class="result-footer">
                             <div class="result-salary">💰 ${mission.salary}€/mois</div>
                             <button class="action-btn" onclick="alert('Postulez rapidement!')">Postuler</button>
                         </div>
                     </div>
                 `).join('');
-            },
-
-            renderConversations() {
-                const container = document.getElementById('conversationsList');
-                container.innerHTML = this.conversations.map((conv, idx) => `
-                    <div class="conversation-item ${this.currentConversation === idx ? 'active' : ''}" onclick="app.openConversation(${idx})">
-                        <div style="display: flex; gap: 10px;">
-                            <div class="conv-avatar">${conv.avatar}</div>
-                            <div style="flex: 1; min-width: 0;">
-                                <div class="conv-name">${conv.name}</div>
-                                <div class="conv-message">${conv.lastMessage}</div>
-                            </div>
-                            <div class="conv-time">${conv.timestamp}</div>
-                        </div>
-                    </div>
-                `).join('');
-            },
-
-            openConversation(idx) {
-                this.currentConversation = idx;
-                const conv = this.conversations[idx];
-                
-                document.getElementById('chatName').textContent = conv.name;
-                document.getElementById('chatStatus').textContent = '🟢 En ligne';
-                
-                const messagesBox = document.getElementById('messagesBox');
-                messagesBox.innerHTML = conv.messages.map(msg => `
-                    <div class="message-group ${msg.sender === 'user' ? 'sent' : ''}">
-                        <div class="message-bubble">
-                            ${msg.text}
-                            <div class="message-time">${msg.time}</div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                this.renderConversations();
-                document.getElementById('messageInput').focus();
-                messagesBox.scrollTop = messagesBox.scrollHeight;
-            },
-
-            sendMessage() {
-                const input = document.getElementById('messageInput');
-                const message = input.value.trim();
-                
-                if (!message || this.currentConversation === null) return;
-
-                const now = new Date();
-                const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-                
-                this.conversations[this.currentConversation].messages.push({
-                    sender: 'user',
-                    text: message,
-                    time: time
-                });
-                
-                input.value = '';
-                this.openConversation(this.currentConversation);
-
-                setTimeout(() => {
-                    const replies = ['D\'accord!', 'Merci!', 'À bientôt!', 'C\'est noté!'];
-                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                    const replyTime = (now.getHours()).toString().padStart(2, '0') + ':' + ((now.getMinutes() + 1).toString().padStart(2, '0'));
-                    
-                    this.conversations[this.currentConversation].messages.push({
-                        sender: 'company',
-                        text: randomReply,
-                        time: replyTime
-                    });
-                    
-                    this.openConversation(this.currentConversation);
-                }, 1000);
-            },
-
-            submitContactForm(event) {
-                event.preventDefault();
-                
-                const name = document.getElementById('contactName').value.trim();
-                const email = document.getElementById('contactEmail').value.trim();
-                const phone = document.getElementById('contactPhone').value.trim();
-                const message = document.getElementById('contactMessage').value.trim();
-
-                if (!name || !email || !phone || !message) {
-                    this.showNotification('❌ Veuillez remplir tous les champs', 'error');
-                    return;
-                }
-
-                this.showNotification('✅ Message envoyé avec succès! Nous vous répondrons rapidement.');
-                
-                document.getElementById('contactName').value = '';
-                document.getElementById('contactEmail').value = '';
-                document.getElementById('contactPhone').value = '';
-                document.getElementById('contactMessage').value = '';
             },
 
             updateNavbar() {
@@ -2709,27 +2241,6 @@
                 document.getElementById('exploreScreen').classList.add('active');
             },
 
-            goMessages() {
-                if (!this.currentUser) {
-                    this.showNotification('❌ Connectez-vous d\'abord', 'error');
-                    this.openLoginModal();
-                    return;
-                }
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('messagesScreen').classList.add('active');
-                this.renderConversations();
-            },
-
-            goPremium() {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('premiumPage').classList.add('active');
-            },
-
-            goHistory() {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('historyPage').classList.add('active');
-            },
-
             goBackToDashboard() {
                 if (this.currentUser.type === 'worker') {
                     this.showWorkerDashboard();
@@ -2742,64 +2253,31 @@
                 }
             },
 
-            goPostMission() {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('postMissionPage').classList.add('active');
-            },
-
-            goStats() {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('statsPage').classList.add('active');
-            },
-
-            goTalents() {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById('talentsPage').classList.add('active');
-                this.renderTalents();
-            },
-
-            renderTalents() {
-                const container = document.getElementById('talentsResults');
-                container.innerHTML = this.mockMissions.map((mission, idx) => `
-                    <div class="result-card" style="animation-delay: ${idx * 0.05}s;">
-                        <div class="result-header">
-                            <div class="result-avatar">${mission.company.charAt(0)}</div>
-                            <div>
-                                <div class="result-title">${mission.title.replace(' - ' + mission.duration, '')}</div>
-                                <div class="result-meta">${mission.company}</div>
-                            </div>
-                        </div>
-                        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px;">
-                            📍 ${mission.location} • ⏱️ ${mission.duration} • 💰 ${mission.salary}€/mois
-                        </div>
-                        <div class="result-description">${mission.description}</div>
-                        <div class="result-tags">
-                            ${mission.skills.slice(0, 3).map(s => `<span class="tag">${s}</span>`).join('')}
-                        </div>
-                        <div class="result-footer">
-                            <div class="result-salary">💰 ${mission.salary}€/mois</div>
-                            <button class="action-btn" onclick="app.recruitTalent()">👔 Recruter</button>
-                        </div>
-                    </div>
-                `).join('');
-            },
-
-            recruitTalent() {
-                this.showNotification('✅ Candidat ajouté à vos favoris! Vous pouvez l\'envoyer une proposition.');
-            },
-
-            submitPostMission(event) {
-                event.preventDefault();
-                this.showNotification('✅ Mission publiée avec succès! Les candidats vont recevoir votre offre.');
-                setTimeout(() => this.goBackToDashboard(), 2000);
-            },
-
             logout() {
                 this.currentUser = null;
                 localStorage.removeItem('logiflex_user');
                 this.updateNavbar();
                 this.goHome();
-                this.showNotification('✅ Vous avez été déconnecté');
+                this.showNotification('✅ Déconnecté avec succès');
+            },
+
+            submitContactForm(event) {
+                event.preventDefault();
+                const name = document.getElementById('contactName').value.trim();
+                const email = document.getElementById('contactEmail').value.trim();
+                const phone = document.getElementById('contactPhone').value.trim();
+                const message = document.getElementById('contactMessage').value.trim();
+
+                if (!name || !email || !phone || !message) {
+                    this.showNotification('❌ Tous les champs sont obligatoires', 'error');
+                    return;
+                }
+
+                this.showNotification('✅ Message envoyé! Nous vous recontacterons bientôt');
+                document.getElementById('contactName').value = '';
+                document.getElementById('contactEmail').value = '';
+                document.getElementById('contactPhone').value = '';
+                document.getElementById('contactMessage').value = '';
             },
 
             checkAuthStatus() {
@@ -2847,7 +2325,7 @@
             },
 
             resetForms() {
-                document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="tel"], textarea').forEach(el => el.value = '');
+                document.querySelectorAll('input, select, textarea').forEach(el => el.value = '');
             },
 
             showNotification(message, type = 'success') {
@@ -2861,6 +2339,520 @@
         };
 
         app.init();
+    </script>
+
+    <!-- ========== CHATBOT LOGIFLEX ========== -->
+    <style>
+        .chatbot-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #001B3D 0%, #2EA77D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(46,167,125,0.4);
+            z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            animation: botPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes botPulse {
+            0%, 100% { box-shadow: 0 6px 24px rgba(46,167,125,0.4); }
+            50% { box-shadow: 0 6px 36px rgba(46,167,125,0.7); }
+        }
+
+        .chatbot-bubble:hover { transform: scale(1.12); }
+
+        .chatbot-bubble span { font-size: 28px; }
+
+        .chatbot-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border-radius: 50%;
+            font-size: 11px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 105px;
+            right: 30px;
+            width: 370px;
+            height: 520px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+            display: none;
+            flex-direction: column;
+            z-index: 9998;
+            overflow: hidden;
+            animation: chatSlideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+
+        @keyframes chatSlideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .chatbot-window.open { display: flex; }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #001B3D 0%, #2EA77D 100%);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .chatbot-avatar-header {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .chatbot-header-info { flex: 1; }
+        .chatbot-header-name { color: white; font-weight: 800; font-size: 15px; }
+        .chatbot-header-status { color: rgba(255,255,255,0.8); font-size: 12px; display: flex; align-items: center; gap: 5px; }
+        .chatbot-header-status::before { content: ''; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; }
+
+        .chatbot-close {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .chatbot-close:hover { background: rgba(255,255,255,0.3); }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: #f8fafc;
+            scrollbar-width: thin;
+            scrollbar-color: #e5e7eb transparent;
+        }
+
+        .chatbot-messages::-webkit-scrollbar { width: 4px; }
+        .chatbot-messages::-webkit-scrollbar-track { background: transparent; }
+        .chatbot-messages::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+
+        .bot-msg, .user-msg {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            animation: msgFadeIn 0.3s ease;
+        }
+
+        @keyframes msgFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-msg { flex-direction: row-reverse; }
+
+        .bot-msg-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #001B3D, #2EA77D);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .bot-bubble {
+            background: white;
+            color: #1f2937;
+            padding: 11px 14px;
+            border-radius: 16px 16px 16px 4px;
+            font-size: 13px;
+            line-height: 1.55;
+            max-width: 82%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border: 1px solid #e5e7eb;
+        }
+
+        .user-bubble {
+            background: linear-gradient(135deg, #2EA77D 0%, #27956d 100%);
+            color: white;
+            padding: 11px 14px;
+            border-radius: 16px 16px 4px 16px;
+            font-size: 13px;
+            line-height: 1.55;
+            max-width: 82%;
+            box-shadow: 0 2px 8px rgba(46,167,125,0.25);
+        }
+
+        .bot-time {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+            text-align: left;
+        }
+
+        .user-time {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .chatbot-typing {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chatbot-typing.show { display: flex; }
+
+        .typing-dots {
+            background: white;
+            padding: 11px 16px;
+            border-radius: 16px 16px 16px 4px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        .chatbot-suggestions {
+            padding: 10px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            flex-shrink: 0;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .suggestion-chip {
+            padding: 6px 12px;
+            background: white;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #001B3D;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .suggestion-chip:hover {
+            background: #2EA77D;
+            color: white;
+            border-color: #2EA77D;
+            transform: translateY(-2px);
+        }
+
+        .chatbot-input-area {
+            padding: 14px 16px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 11px 15px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 25px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .chatbot-input:focus {
+            border-color: #2EA77D;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(46,167,125,0.1);
+        }
+
+        .chatbot-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2EA77D, #27956d);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(46,167,125,0.3);
+        }
+
+        .chatbot-send:hover { transform: scale(1.08); box-shadow: 0 5px 15px rgba(46,167,125,0.4); }
+        .chatbot-send:active { transform: scale(0.95); }
+    </style>
+
+    <!-- CHATBOT HTML -->
+    <div class="chatbot-bubble" id="chatbotBubble" onclick="chatbot.toggle()">
+        <span>🤖</span>
+        <div class="chatbot-badge" id="chatbotBadge">1</div>
+    </div>
+
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar-header">🤖</div>
+            <div class="chatbot-header-info">
+                <div class="chatbot-header-name">Alex — Assistant LogiFlex</div>
+                <div class="chatbot-header-status">En ligne • Répond en quelques secondes</div>
+            </div>
+            <button class="chatbot-close" onclick="chatbot.toggle()">×</button>
+        </div>
+
+        <div class="chatbot-messages" id="chatbotMessages"></div>
+
+        <div class="chatbot-typing" id="chatbotTyping">
+            <div class="bot-msg-avatar">🤖</div>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="chatbot-suggestions" id="chatbotSuggestions">
+            <div class="suggestion-chip" onclick="chatbot.send('Comment fonctionne LogiFlex ?')">Comment ça marche ?</div>
+            <div class="suggestion-chip" onclick="chatbot.send('Comment postuler ?')">Comment postuler ?</div>
+            <div class="suggestion-chip" onclick="chatbot.send('Quels sont les tarifs ?')">Les tarifs ?</div>
+            <div class="suggestion-chip" onclick="chatbot.send('Comment recruter ?')">Recruter ?</div>
+        </div>
+
+        <div class="chatbot-input-area">
+            <input class="chatbot-input" id="chatbotInput" placeholder="Écrivez votre message..." onkeydown="if(event.key==='Enter') chatbot.sendInput()">
+            <button class="chatbot-send" onclick="chatbot.sendInput()">➤</button>
+        </div>
+    </div>
+
+    <script>
+    const chatbot = {
+        isOpen: false,
+        messageCount: 0,
+        userFirstName: null,
+
+        knowledge: [
+            {
+                patterns: ['bonjour', 'salut', 'hello', 'bonsoir', 'hey', 'coucou', 'bjr'],
+                response: () => {
+                    const hour = new Date().getHours();
+                    const greet = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+                    return `${greet} ! 👋 Je suis **Alex**, votre assistant LogiFlex.\n\nJe suis là pour vous aider à :\n• Trouver des missions d'intérim 🎯\n• Comprendre comment recruter des talents 👔\n• Répondre à vos questions sur la plateforme\n\nComment puis-je vous aider aujourd'hui ?`;
+                }
+            },
+            {
+                patterns: ['comment fonctionne', 'comment ça marche', 'fonctionnement', 'comment utiliser', 'logiflex c\'est quoi', 'kesako', 'présente'],
+                response: () => `**LogiFlex** est la plateforme d'intérim #1 au Sénégal 🇸🇳\n\n**Pour les travailleurs :**\n1️⃣ Créez votre profil gratuitement\n2️⃣ Parcourez les missions disponibles\n3️⃣ Postulez en un clic\n4️⃣ Soyez recruté sous 48h !\n\n**Pour les entreprises :**\n1️⃣ Publiez vos offres de mission\n2️⃣ Recevez des profils pré-sélectionnés\n3️⃣ Recrutez directement via notre cabinet\n\nVous voulez commencer ?`
+            },
+            {
+                patterns: ['postuler', 'comment postuler', 'candidature', 'candidater', 's\'inscrire travailleur'],
+                response: () => `Postuler sur LogiFlex c'est simple ! 🎯\n\n**Étapes :**\n1. Créez votre compte (bouton **S'inscrire** en haut)\n2. Choisissez **Travailleur**\n3. Remplissez votre profil (profession, compétences...)\n4. Allez dans **Explorer** pour voir les missions\n5. Cliquez sur **Postuler** sur la mission qui vous intéresse\n\n⚡ Notre équipe vous contacte sous **24-48h** après votre candidature !`
+            },
+            {
+                patterns: ['recruter', 'comment recruter', 'trouver talent', 'embaucher', 'recrutement', 's\'inscrire entreprise'],
+                response: () => `Pour recruter avec LogiFlex 👔\n\n**Processus en 4 étapes :**\n1️⃣ **Publiez** votre offre de mission\n2️⃣ **Recevez** des candidatures pré-filtrées sous 2h\n3️⃣ **Choisissez** le profil via votre tableau de bord\n4️⃣ **Finalisez** le contrat avec notre cabinet sous 72h\n\n🏆 Nous avons **5000+ talents** disponibles immédiatement à Dakar et dans tout le Sénégal !\n\nVous avez un besoin urgent ?`
+            },
+            {
+                patterns: ['prix', 'tarif', 'combien', 'coût', 'gratuit', 'abonnement', 'premium', 'payer'],
+                response: () => `**Tarifs LogiFlex** 💰\n\n✅ **Inscription** : 100% GRATUITE\n✅ **Exploration** : Gratuite\n✅ **Candidature** : Gratuite\n\n⭐ **Plans Premium** (optionnels) :\n• Standard : **4,99€/mois** (accès de base)\n• Pro : **9,99€/mois** ⭐ le plus populaire\n• Elite : **19,99€/mois** (VIP + manager)\n• Enterprise : **Sur devis**\n\nLe Premium augmente votre visibilité et donne accès en priorité aux meilleures missions ! Voulez-vous en savoir plus ?`
+            },
+            {
+                patterns: ['mission', 'missions disponibles', 'offres', 'quelles missions', 'domaines'],
+                response: () => `**Nos domaines de missions** 🎯\n\n💼 Finance & Administration\n🚚 Logistique & Transport\n💻 Informatique & Tech\n🛒 Commerce & Vente\n👥 Ressources Humaines\n🏗️ Manutention\n\n**Exemples de missions actuelles :**\n• Assistante de direction — 2200€/mois\n• Logisticien — 1800€/mois\n• Développeur Web — 3500€/mois\n• Chauffeur longue durée — 2500€/mois\n\nVoulez-vous explorer les missions maintenant ?`
+            },
+            {
+                patterns: ['délai', 'combien de temps', 'rapidité', 'urgent', 'vite'],
+                response: () => `**Nos délais** ⚡\n\n• Publication d'offre vérifiée : **< 2h**\n• Présélection de candidats : **< 24h**\n• Premier contact avec talent : **< 48h**\n• Contrat finalisé : **48-72h**\n\nNous sommes parmi les plus rapides du marché ! 🏆\n\nPour les besoins urgents, notre équipe peut mobiliser des talents **en moins de 24h**. Avez-vous un besoin urgent ?`
+            },
+            {
+                patterns: ['contact', 'téléphone', 'email', 'joindre', 'parler à quelqu\'un', 'adresse'],
+                response: () => `**Contactez-nous** 📞\n\n📍 **Adresse** : Dakar, Sénégal\n📞 **Téléphone** : +221 77 123 45 67\n📧 **Email** : contact@logiflex.sn\n⏰ **Horaires** : Lun-Ven, 8h-18h\n\nVous pouvez aussi utiliser le **formulaire de contact** en bas de la page d'accueil. Notre équipe répond généralement dans les **2 heures** ! 😊`
+            },
+            {
+                patterns: ['dakar', 'sénégal', 'localisation', 'region', 'ville', 'où', 'thiès', 'kaolack'],
+                response: () => `**Zones couvertes** 📍\n\nLogiFlex opère principalement à :\n• 🏙️ **Dakar** (centre, Plateau, Almadies...)\n• 🌆 **Banlieue de Dakar** (Pikine, Guédiawaye...)\n• 🏘️ **Thiès**\n• 🏘️ **Kaolack**\n\nNous étendons progressivement notre réseau à tout le Sénégal ! 🇸🇳\n\nVotre localisation est couverte ?`
+            },
+            {
+                patterns: ['profil', 'mon profil', 'modifier', 'compétences', 'cv', 'expérience'],
+                response: () => `**Votre profil LogiFlex** 👤\n\nUn profil complet augmente vos chances de **3x** !\n\n✅ Ce qu'il faut renseigner :\n• Nom & Prénom\n• Profession & Expérience\n• Compétences clés\n• Localisation\n• Disponibilité\n\n💡 **Astuce** : Les profils avec une photo et des compétences détaillées sont contactés **5x plus rapidement** par les recruteurs !\n\nVoulez-vous créer votre profil maintenant ?`
+            },
+            {
+                patterns: ['sécurité', 'données', 'confidentiel', 'privacy', 'rgpd'],
+                response: () => `**Sécurité & Confidentialité** 🔒\n\nLogiFlex prend très au sérieux la protection de vos données :\n\n✅ Données chiffrées et sécurisées\n✅ Aucune revente de données personnelles\n✅ Conformité aux réglementations en vigueur\n✅ Vous contrôlez vos informations à tout moment\n✅ Suppression de compte possible à tout moment\n\nVous pouvez utiliser la plateforme en toute confiance ! 😊`
+            },
+            {
+                patterns: ['merci', 'super', 'génial', 'parfait', 'excellent', 'cool', 'ok merci', 'top'],
+                response: () => `Avec plaisir ! 😊🙏\n\nN'hésitez pas à revenir si vous avez d'autres questions. Je suis là 24h/24 pour vous aider !\n\nBonne journée et bonne recherche sur LogiFlex ! 🚀✨`
+            },
+            {
+                patterns: ['au revoir', 'bye', 'à bientôt', 'ciao', 'adieu'],
+                response: () => `Au revoir ! 👋\n\nMerci d'avoir utilisé l'assistant LogiFlex. Bonne chance dans vos recherches ! 🍀\n\nN'hésitez pas à revenir, je serai toujours là 🤖💚`
+            },
+            {
+                patterns: ['aide', 'help', 'quoi faire', 'que faire', 'pas compris', 'besoin aide'],
+                response: () => `Je suis là pour vous aider ! 🤗\n\nVoici ce sur quoi je peux répondre :\n\n🔹 **Fonctionnement** de la plateforme\n🔹 **Comment postuler** à une mission\n🔹 **Comment recruter** des talents\n🔹 **Tarifs** et abonnements Premium\n🔹 **Missions disponibles** et domaines\n🔹 **Délais** de recrutement\n🔹 **Coordonnées** de contact\n🔹 **Sécurité** de vos données\n\nPosez-moi votre question ! 😊`
+            },
+        ],
+
+        defaultResponses: [
+            "Bonne question ! 🤔 Pour cette demande spécifique, je vous recommande de contacter notre équipe directement au **+221 77 123 45 67** ou par email à **contact@logiflex.sn**. Ils pourront vous répondre précisément !",
+            "Je ne suis pas sûr de bien comprendre. 😅 Pouvez-vous reformuler ? Ou utilisez les suggestions ci-dessous pour naviguer rapidement !",
+            "Cette question mérite une réponse de notre équipe d'experts ! Contactez-nous au **+221 77 123 45 67** ou via le formulaire de contact en bas de la page. ✉️",
+        ],
+
+        init() {
+            setTimeout(() => this.addBotMessage("👋 Bonjour ! Je suis **Alex**, l'assistant intelligent de LogiFlex.\n\nComment puis-je vous aider aujourd'hui ?"), 800);
+        },
+
+        toggle() {
+            this.isOpen = !this.isOpen;
+            const win = document.getElementById('chatbotWindow');
+            const badge = document.getElementById('chatbotBadge');
+            win.classList.toggle('open', this.isOpen);
+            badge.style.display = 'none';
+            if (this.isOpen && this.messageCount === 0) {
+                this.init();
+            }
+        },
+
+        addBotMessage(text) {
+            const msgs = document.getElementById('chatbotMessages');
+            const typing = document.getElementById('chatbotTyping');
+            typing.classList.remove('show');
+
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+            const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+
+            const div = document.createElement('div');
+            div.className = 'bot-msg';
+            div.innerHTML = `
+                <div class="bot-msg-avatar">🤖</div>
+                <div>
+                    <div class="bot-bubble">${formatted}</div>
+                    <div class="bot-time">${time}</div>
+                </div>
+            `;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+            this.messageCount++;
+        },
+
+        addUserMessage(text) {
+            const msgs = document.getElementById('chatbotMessages');
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+            const div = document.createElement('div');
+            div.className = 'user-msg';
+            div.innerHTML = `
+                <div>
+                    <div class="user-bubble">${text}</div>
+                    <div class="user-time">${time}</div>
+                </div>
+            `;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        },
+
+        showTyping() {
+            const typing = document.getElementById('chatbotTyping');
+            const msgs = document.getElementById('chatbotMessages');
+            typing.classList.add('show');
+            msgs.scrollTop = msgs.scrollHeight;
+        },
+
+        findResponse(input) {
+            const lower = input.toLowerCase().trim();
+            for (const item of this.knowledge) {
+                for (const pattern of item.patterns) {
+                    if (lower.includes(pattern)) {
+                        return typeof item.response === 'function' ? item.response() : item.response;
+                    }
+                }
+            }
+            return this.defaultResponses[Math.floor(Math.random() * this.defaultResponses.length)];
+        },
+
+        send(text) {
+            if (!text.trim()) return;
+            this.addUserMessage(text);
+            this.showTyping();
+            const delay = 800 + Math.random() * 600;
+            setTimeout(() => {
+                const response = this.findResponse(text);
+                this.addBotMessage(response);
+            }, delay);
+        },
+
+        sendInput() {
+            const input = document.getElementById('chatbotInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            this.send(text);
+        }
+    };
     </script>
 </body>
 </html>
