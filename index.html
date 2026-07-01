@@ -410,6 +410,172 @@
             letter-spacing: 0.5px;
         }
 
+        /* ========== SERVICES SECTION ========== */
+        .services-section {
+            padding: 100px 20px;
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--green) 0%, var(--navy) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(46, 167, 125, 0.15);
+            border-color: var(--green);
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(46, 167, 125, 0.12) 0%, rgba(0, 27, 61, 0.07) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: linear-gradient(135deg, var(--green) 0%, var(--navy) 100%);
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .service-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* ========== ABOUT SECTION ========== */
+        .about-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--navy) 0%, #0a2440 50%, var(--navy) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(46, 167, 125, 0.08);
+            pointer-events: none;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-section .section-title {
+            color: white;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .about-text h3 {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .about-text p {
+            color: rgba(255,255,255,0.75);
+            font-size: 15px;
+            line-height: 1.85;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .value-item {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 22px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover {
+            background: rgba(46, 167, 125, 0.15);
+            border-color: var(--green);
+            transform: translateY(-4px);
+        }
+
+        .value-item .val-icon { font-size: 28px; margin-bottom: 10px; }
+        .value-item h4 { color: white; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .value-item p { color: rgba(255,255,255,0.65); font-size: 13px; margin: 0; }
+
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; gap: 50px; }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .about-values { grid-template-columns: 1fr; }
+        }
+
         /* ========== FEATURES SECTION ========== */
         .features-section {
             padding: 100px 20px;
@@ -1025,54 +1191,381 @@
 
         /* ========== DASHBOARD ========== */
         .dashboard {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
             animation: fadeInUp 0.6s ease;
             flex: 1;
         }
 
-        .dashboard-header {
-            background: linear-gradient(135deg, white 0%, var(--lighter) 100%);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            margin-bottom: 35px;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 35px;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        /* Hero banner */
+        .dash-hero {
+            background: linear-gradient(135deg, var(--navy) 0%, #0d3060 40%, var(--green) 100%);
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .dashboard-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--navy) 0%, var(--gold) 100%);
+        .dash-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+
+        .dash-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: 20%;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+        .dash-hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dash-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.15);
+            border: 3px solid rgba(255,255,255,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 56px;
-            font-weight: bold;
-            box-shadow: 0 8px 25px rgba(0, 27, 61, 0.2);
-        }
-
-        .dashboard-info h1 {
-            font-size: 32px;
-            color: var(--navy);
-            margin-bottom: 8px;
+            font-size: 36px;
             font-weight: 900;
-            letter-spacing: -1px;
+            flex-shrink: 0;
+            backdrop-filter: blur(6px);
         }
 
-        .dashboard-info p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 16px;
-            font-weight: 500;
+        .dash-hero-text { flex: 1; }
+
+        .dash-hero-text h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
+
+        .dash-hero-text p {
+            color: rgba(255,255,255,0.75);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .dash-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            backdrop-filter: blur(4px);
+        }
+
+        .dash-hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .dash-hero-btn {
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .dash-hero-btn.primary {
+            background: white;
+            color: var(--navy);
+        }
+
+        .dash-hero-btn.primary:hover {
+            background: var(--lighter);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .dash-hero-btn.secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1.5px solid rgba(255,255,255,0.35);
+        }
+
+        .dash-hero-btn.secondary:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        /* KPI row */
+        .dash-body {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 40px;
+        }
+
+        .dash-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px 24px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(46,167,125,0.1);
+            border-color: var(--green);
+        }
+
+        .kpi-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .kpi-icon.green { background: rgba(46,167,125,0.12); }
+        .kpi-icon.navy { background: rgba(0,27,61,0.08); }
+        .kpi-icon.gold { background: rgba(212,164,116,0.15); }
+        .kpi-icon.red { background: rgba(239,68,68,0.1); }
+
+        .kpi-info { flex: 1; }
+
+        .kpi-value {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--navy);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main grid: actions + recent */
+        .dash-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 25px;
+        }
+
+        /* Nav cards */
+        .dash-section-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .dash-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .dash-nav-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px 24px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dash-nav-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--navy));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .dash-nav-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(46,167,125,0.14);
+            border-color: var(--green);
+        }
+
+        .dash-nav-card:hover::after { transform: scaleX(1); }
+
+        .dash-nav-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(46,167,125,0.1) 0%, rgba(0,27,61,0.06) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .dash-nav-card:hover .dash-nav-icon {
+            background: linear-gradient(135deg, var(--green) 0%, var(--navy) 100%);
+        }
+
+        .dash-nav-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .dash-nav-card p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .dash-nav-card .nav-arrow {
+            font-size: 18px;
+            color: var(--green);
+            font-weight: 900;
+            margin-top: auto;
+        }
+
+        /* Logout card special */
+        .dash-nav-card.logout-card {
+            border-color: rgba(239,68,68,0.2);
+            background: rgba(239,68,68,0.02);
+        }
+
+        .dash-nav-card.logout-card:hover {
+            border-color: #ef4444;
+            box-shadow: 0 20px 40px rgba(239,68,68,0.1);
+        }
+
+        .dash-nav-card.logout-card::after {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .dash-nav-card.logout-card .dash-nav-icon {
+            background: rgba(239,68,68,0.1);
+        }
+
+        .dash-nav-card.logout-card:hover .dash-nav-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        /* Sidebar */
+        .dash-sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+        .dash-widget {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .dash-widget-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-mission-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .dash-mission-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .dash-mission-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 3px;
+        }
+
+        .dash-mission-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .dash-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .dash-dot.green { background: var(--green); }
+        .dash-dot.gold { background: var(--gold); }
+
+        .dash-tip {
+            background: linear-gradient(135deg, rgba(46,167,125,0.08) 0%, rgba(0,27,61,0.05) 100%);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid rgba(46,167,125,0.15);
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .dash-tip strong { color: var(--navy); }
 
         .badge {
             display: inline-flex;
@@ -1087,53 +1580,19 @@
             border: 1px solid rgba(46, 167, 125, 0.2);
         }
 
-        .dashboard-actions {
-            background: white;
-            padding: 35px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        /* Responsive dashboard */
+        @media (max-width: 1100px) {
+            .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .dash-main-grid { grid-template-columns: 1fr; }
+            .dash-body { padding: 30px 20px; }
+            .dash-hero { padding: 35px 20px; }
         }
 
-        .dashboard-actions h2 {
-            color: var(--navy);
-            margin-bottom: 10px;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .dashboard-actions > p {
-            color: var(--text-secondary);
-            margin-bottom: 25px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-
-        .action-btn-card {
-            padding: 22px 16px;
-            background: linear-gradient(135deg, var(--lighter) 0%, white 100%);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-size: 13px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-
-        .action-btn-card:hover {
-            border-color: var(--green);
-            background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(46, 167, 125, 0.12);
+        @media (max-width: 600px) {
+            .dash-kpi-grid { grid-template-columns: 1fr 1fr; }
+            .dash-nav-grid { grid-template-columns: 1fr; }
+            .dash-hero-inner { flex-direction: column; align-items: flex-start; }
+            .dash-hero-actions { flex-direction: column; width: 100%; }
         }
 
         /* ========== MODAL ========== */
@@ -1697,23 +2156,76 @@
                 </div>
             </div>
 
-            <div class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number">5000+</div>
-                        <div class="stat-text">Talents actifs</div>
+            <!-- SERVICES SECTION -->
+            <div class="services-section">
+                <h2 class="section-title">Présentation de nos services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🔗</div>
+                        <div class="service-title">Mise en relation</div>
+                        <div class="service-text">Nous connectons les talents qualifiés avec les entreprises qui recrutent, rapidement et efficacement, grâce à notre plateforme intelligente.</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1200+</div>
-                        <div class="stat-text">Entreprises partenaires</div>
+                    <div class="service-card">
+                        <div class="service-icon">📋</div>
+                        <div class="service-title">Gestion des missions</div>
+                        <div class="service-text">Publication, suivi et gestion complète des missions d'intérim depuis un tableau de bord unique et intuitif.</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">15000+</div>
-                        <div class="stat-text">Missions pourvues</div>
+                    <div class="service-card">
+                        <div class="service-icon">🤝</div>
+                        <div class="service-title">Accompagnement RH</div>
+                        <div class="service-text">Notre cabinet vous accompagne dans toutes les étapes du recrutement : sourcing, présélection, entretiens et intégration.</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-text">Satisfaction clients</div>
+                    <div class="service-card">
+                        <div class="service-icon">⭐</div>
+                        <div class="service-title">Offre Premium</div>
+                        <div class="service-text">Boostez votre visibilité et accédez en avant-première aux meilleures missions ou aux meilleurs talents avec nos plans Premium.</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <div class="service-title">Analytics & Reporting</div>
+                        <div class="service-text">Suivez en temps réel vos performances de recrutement et vos missions grâce à des tableaux de bord détaillés.</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">💬</div>
+                        <div class="service-title">Messagerie intégrée</div>
+                        <div class="service-text">Communiquez directement avec les travailleurs ou les recruteurs via notre système de messagerie sécurisée et instantanée.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- À PROPOS DE NOUS -->
+            <div class="about-section">
+                <div class="about-container">
+                    <h2 class="section-title">À propos de nous</h2>
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <h3>La plateforme d'intérim qui révolutionne le marché du travail au Sénégal</h3>
+                            <p>LogiFlex est né d'une vision simple : faciliter la rencontre entre les talents et les entreprises dans un marché du travail en pleine évolution. Fondée à Dakar, notre plateforme répond aux réalités du secteur informel et formel sénégalais.</p>
+                            <p>Nous croyons que chaque travailleur mérite une opportunité professionnelle digne et transparente, et que chaque entreprise mérite de trouver le bon profil rapidement, sans intermédiaires inutiles.</p>
+                            <p>Grâce à notre réseau grandissant et à notre équipe dédiée, nous accompagnons au quotidien travailleurs et entreprises vers des collaborations durables et fructueuses.</p>
+                        </div>
+                        <div class="about-values">
+                            <div class="value-item">
+                                <div class="val-icon">🎯</div>
+                                <h4>Notre mission</h4>
+                                <p>Démocratiser l'accès à l'emploi qualifié au Sénégal et en Afrique de l'Ouest.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="val-icon">👁️</div>
+                                <h4>Notre vision</h4>
+                                <p>Devenir la référence de l'intérim digital en Afrique francophone d'ici 2028.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="val-icon">🤝</div>
+                                <h4>Confiance</h4>
+                                <p>Transparence et honnêteté dans chaque relation avec nos utilisateurs.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="val-icon">⚡</div>
+                                <h4>Innovation</h4>
+                                <p>Des outils modernes pour un marché du travail en constante évolution.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1909,27 +2421,128 @@
         <!-- WORKER DASHBOARD -->
         <div class="screen" id="workerDashboard">
             <div class="dashboard">
-                <div class="dashboard-header">
-                    <div class="dashboard-avatar" id="workerAvatar">M</div>
-                    <div class="dashboard-info">
-                        <h1 id="workerName">Marie Dupont</h1>
-                        <p id="workerTitle">Assistante de direction</p>
-                        <p id="workerEmail" style="font-size: 13px; opacity: 0.7;"></p>
-                        <div style="margin-top: 8px;">
-                            <span class="badge">🟢 Disponible</span>
+                <!-- Hero banner -->
+                <div class="dash-hero">
+                    <div class="dash-hero-inner">
+                        <div class="dash-avatar" id="workerAvatar">M</div>
+                        <div class="dash-hero-text">
+                            <h1 id="workerName">Marie Dupont</h1>
+                            <p style="color:rgba(255,255,255,0.75);font-size:14px;margin-bottom:14px;"><span id="workerTitle">Assistante de direction</span> · <span id="workerEmail" style="opacity:0.8;"></span></p>
+                            <span class="dash-badge">🟢 Disponible aux missions</span>
+                        </div>
+                        <div class="dash-hero-actions">
+                            <button class="dash-hero-btn primary" onclick="app.goExplore()">🎯 Voir les missions</button>
+                            <button class="dash-hero-btn secondary" onclick="app.logout()">Déconnexion</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="dashboard-actions">
-                    <h2>Bienvenue sur votre tableau de bord</h2>
-                    <p>Explorez les missions adaptées à votre profil et postulez rapidement.</p>
-                    <div class="action-buttons">
-                        <div class="action-btn-card" onclick="app.goExplore()">🎯 Voir missions</div>
-                        <div class="action-btn-card" onclick="app.goToHistory()">📊 Historique</div>
-                        <div class="action-btn-card" onclick="app.goToPremium()">⭐ Premium</div>
-                        <div class="action-btn-card" onclick="app.goToMessages()">💬 Messages</div>
-                        <div class="action-btn-card" onclick="app.logout()">🚪 Déconnexion</div>
+                <!-- Body -->
+                <div class="dash-body">
+                    <!-- KPIs -->
+                    <div class="dash-kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon green">🎯</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">8</div>
+                                <div class="kpi-label">Missions disponibles</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon navy">📋</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">3</div>
+                                <div class="kpi-label">Candidatures envoyées</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon gold">⭐</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">4.9</div>
+                                <div class="kpi-label">Note moyenne</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon green">✅</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">2</div>
+                                <div class="kpi-label">Missions complétées</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main grid -->
+                    <div class="dash-main-grid">
+                        <!-- Nav cards -->
+                        <div>
+                            <div class="dash-section-title">Mes actions rapides</div>
+                            <div class="dash-nav-grid">
+                                <div class="dash-nav-card" onclick="app.goExplore()">
+                                    <div class="dash-nav-icon">🎯</div>
+                                    <h3>Explorer les missions</h3>
+                                    <p>Parcourez les offres disponibles et postulez rapidement</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToHistory()">
+                                    <div class="dash-nav-icon">📊</div>
+                                    <h3>Mon historique</h3>
+                                    <p>Consultez vos missions passées et leur statut</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToMessages()">
+                                    <div class="dash-nav-icon">💬</div>
+                                    <h3>Mes messages</h3>
+                                    <p>Communiquez avec vos recruteurs en temps réel</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToPremium()">
+                                    <div class="dash-nav-icon">⭐</div>
+                                    <h3>Passer Premium</h3>
+                                    <p>Boostez votre visibilité et accédez aux meilleures offres</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card logout-card" onclick="app.logout()">
+                                    <div class="dash-nav-icon">🚪</div>
+                                    <h3>Déconnexion</h3>
+                                    <p>Quitter votre session en toute sécurité</p>
+                                    <div class="nav-arrow" style="color:#ef4444;">→</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="dash-sidebar">
+                            <div class="dash-widget">
+                                <div class="dash-widget-title">📌 Missions récentes</div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Assistante de direction</div>
+                                        <div class="dash-mission-meta">TechCorp · Jan–Avr 2026</div>
+                                    </div>
+                                    <div class="dash-dot green"></div>
+                                </div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Agent administratif</div>
+                                        <div class="dash-mission-meta">BankFinance · En cours</div>
+                                    </div>
+                                    <div class="dash-dot gold"></div>
+                                </div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Logisticien</div>
+                                        <div class="dash-mission-meta">LogisExpress · Mar 2026</div>
+                                    </div>
+                                    <div class="dash-dot green"></div>
+                                </div>
+                            </div>
+                            <div class="dash-widget">
+                                <div class="dash-widget-title">💡 Conseil du jour</div>
+                                <div class="dash-tip">
+                                    <strong>Complétez votre profil</strong> pour apparaître en tête des résultats et recevoir des offres ciblées adaptées à votre expertise.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1938,27 +2551,128 @@
         <!-- COMPANY DASHBOARD -->
         <div class="screen" id="companyDashboard">
             <div class="dashboard">
-                <div class="dashboard-header">
-                    <div class="dashboard-avatar" id="companyAvatar">T</div>
-                    <div class="dashboard-info">
-                        <h1 id="companyName">TechCorp Sénégal</h1>
-                        <p id="companySector">Informatique</p>
-                        <p id="companyEmail" style="font-size: 13px; opacity: 0.7;"></p>
-                        <div style="margin-top: 8px;">
-                            <span class="badge">✓ Recrutement actif</span>
+                <!-- Hero banner -->
+                <div class="dash-hero" style="background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 40%, var(--gold) 100%);">
+                    <div class="dash-hero-inner">
+                        <div class="dash-avatar" id="companyAvatar" style="background: rgba(212,164,116,0.2); border-color: rgba(212,164,116,0.4);">T</div>
+                        <div class="dash-hero-text">
+                            <h1 id="companyName">TechCorp Sénégal</h1>
+                            <p style="color:rgba(255,255,255,0.75);font-size:14px;margin-bottom:14px;"><span id="companySector">Entreprise</span> · <span id="companyEmail" style="opacity:0.8;"></span></p>
+                            <span class="dash-badge" style="background:rgba(212,164,116,0.2); border-color:rgba(212,164,116,0.3);">✓ Recrutement actif</span>
+                        </div>
+                        <div class="dash-hero-actions">
+                            <button class="dash-hero-btn primary" onclick="app.goToPostMission()">➕ Poster une mission</button>
+                            <button class="dash-hero-btn secondary" onclick="app.logout()">Déconnexion</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="dashboard-actions">
-                    <h2>Tableau de bord Entreprise</h2>
-                    <p>Accédez à notre vivier de talents pré-sélectionnés et publiez vos missions.</p>
-                    <div class="action-buttons">
-                        <div class="action-btn-card" onclick="app.goToPostMission()">➕ Poster mission</div>
-                        <div class="action-btn-card" onclick="app.goToTalents()">👥 Talents</div>
-                        <div class="action-btn-card" onclick="app.goToMessages()">💬 Messages</div>
-                        <div class="action-btn-card" onclick="app.goToStats()">📊 Stats</div>
-                        <div class="action-btn-card" onclick="app.logout()">🚪 Déconnexion</div>
+                <!-- Body -->
+                <div class="dash-body">
+                    <!-- KPIs -->
+                    <div class="dash-kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon navy">📋</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">24</div>
+                                <div class="kpi-label">Missions publiées</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon green">✅</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">18</div>
+                                <div class="kpi-label">Missions pourvues</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon gold">👥</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">142</div>
+                                <div class="kpi-label">Talents consultés</div>
+                            </div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-icon green">📈</div>
+                            <div class="kpi-info">
+                                <div class="kpi-value">75%</div>
+                                <div class="kpi-label">Taux de succès</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main grid -->
+                    <div class="dash-main-grid">
+                        <!-- Nav cards -->
+                        <div>
+                            <div class="dash-section-title">Gestion de l'entreprise</div>
+                            <div class="dash-nav-grid">
+                                <div class="dash-nav-card" onclick="app.goToPostMission()">
+                                    <div class="dash-nav-icon">➕</div>
+                                    <h3>Poster une mission</h3>
+                                    <p>Publiez une offre et recevez des candidatures qualifiées</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToTalents()">
+                                    <div class="dash-nav-icon">👥</div>
+                                    <h3>Nos talents</h3>
+                                    <p>Parcourez notre vivier de profils pré-sélectionnés</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToMessages()">
+                                    <div class="dash-nav-icon">💬</div>
+                                    <h3>Messages</h3>
+                                    <p>Échangez directement avec les candidats</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card" onclick="app.goToStats()">
+                                    <div class="dash-nav-icon">📊</div>
+                                    <h3>Statistiques</h3>
+                                    <p>Analysez vos performances de recrutement</p>
+                                    <div class="nav-arrow">→</div>
+                                </div>
+                                <div class="dash-nav-card logout-card" onclick="app.logout()">
+                                    <div class="dash-nav-icon">🚪</div>
+                                    <h3>Déconnexion</h3>
+                                    <p>Quitter votre session en toute sécurité</p>
+                                    <div class="nav-arrow" style="color:#ef4444;">→</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="dash-sidebar">
+                            <div class="dash-widget">
+                                <div class="dash-widget-title">📌 Dernières missions</div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Assistante de direction</div>
+                                        <div class="dash-mission-meta">3 candidatures · En cours</div>
+                                    </div>
+                                    <div class="dash-dot gold"></div>
+                                </div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Développeur Web</div>
+                                        <div class="dash-mission-meta">7 candidatures · Active</div>
+                                    </div>
+                                    <div class="dash-dot green"></div>
+                                </div>
+                                <div class="dash-mission-item">
+                                    <div>
+                                        <div class="dash-mission-name">Logisticien</div>
+                                        <div class="dash-mission-meta">Pourvue · Mar 2026</div>
+                                    </div>
+                                    <div class="dash-dot green"></div>
+                                </div>
+                            </div>
+                            <div class="dash-widget">
+                                <div class="dash-widget-title">💡 Astuce LogiFlex</div>
+                                <div class="dash-tip">
+                                    <strong>Passez en mode Pro</strong> pour accéder aux profils premium et réduire votre délai de recrutement de 70%.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2689,6 +3403,7 @@
 
             renderMissionsForExplore() {
                 const container = document.getElementById('exploreResults');
+                const isWorker = this.currentUser && this.currentUser.type === 'worker';
                 container.innerHTML = this.mockMissions.map((mission, idx) => `
                     <div class="result-card" style="animation-delay: ${idx * 0.05}s;">
                         <div style="display: flex; gap: 12px; margin-bottom: 12px;">
@@ -2698,11 +3413,11 @@
                                 <div class="result-meta">${mission.company}</div>
                             </div>
                         </div>
-                        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px;">📍 ${mission.location} • ⏱️ ${mission.duration} • 💰 ${mission.salary.toLocaleString('fr-FR')} FCFA/mois</div>
+                        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px;">📍 ${mission.location} • ⏱️ ${mission.duration}${isWorker ? '' : ` • 💰 ${mission.salary.toLocaleString('fr-FR')} FCFA/mois`}</div>
                         <div class="result-description">${mission.description}</div>
                         <div class="result-tags">${mission.skills.slice(0, 3).map(s => `<span class="tag">${s}</span>`).join('')}</div>
                         <div class="result-footer">
-                            <div class="result-salary">💰 ${mission.salary.toLocaleString('fr-FR')} FCFA/mois</div>
+                            ${isWorker ? '<div style="font-size:13px;color:var(--text-secondary);font-weight:600;">Salaire négocié avec LogiFlex</div>' : `<div class="result-salary">💰 ${mission.salary.toLocaleString('fr-FR')} FCFA/mois</div>`}
                             <button class="action-btn" onclick="alert('Postulez rapidement!')">Postuler</button>
                         </div>
                     </div>
@@ -2745,6 +3460,7 @@
                 }
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById('exploreScreen').classList.add('active');
+                this.renderMissionsForExplore();
             },
 
             goBackToDashboard() {
